@@ -1,0 +1,27 @@
+<p><a href='/{{index}}'>Wróć</a></p>
+
+<p>Opinie użytkowników produktu </p>
+<h1>{{title}}</h1>
+<h3>{{reviewsAverage}}</h3>
+
+<h3>Dodaj opinię:</h3>
+<form method='POST' action='/{{index}}/add-comment'>
+  Twoja nazwa:
+  <input type='text' name='name' required='required' />
+  <br />
+  Komentarz:
+  <textarea name='comment' required='required'></textarea>
+  <br />
+  Ocena:
+  <input type='number' name='stars' min='1' max='5' required='required' />
+  <br />
+  <input type='submit' />
+</form>
+
+<br />
+
+{{#each reviews}}
+  <br />
+  <h3>{{name}} - {{stars}}/5</h3>
+  <p>{{comment}}</p>
+{{/each}}

@@ -1,0 +1,16 @@
+td {
+  border-top: 1px solid gray;
+  padding: 5px;
+}
+
+.img-small {
+  height: 100px;
+}
+
+.img-big {
+  height: 300px;
+}
+
+.flex {
+  display: flex;
+}

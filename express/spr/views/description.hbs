@@ -1,0 +1,20 @@
+<p><a href='/'>Wróć</a></p>
+
+<h1>{{title}}</h1>
+<p>Kategoria: {{category}}</p>
+
+<div class='flex'>
+  <img src='{{img_url}}' class='img-big' />
+  <section>
+    <h2>{{price}} zł</h2>
+    <h3>{{slogan}}</h3>
+    <p>{{description}}</p>
+  </section>
+</div>
+
+{{#if reviewsAverage}}
+  <h3>Średnia opinii użytkowników - {{reviewsAverage}}/5</h3>
+  <p><a href='/{{index}}/reviews'>Pokaż opinie</a></p>
+{{else}}
+  <h3>Brak opinii użytkowników</h3>
+{{/if}}

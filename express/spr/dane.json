@@ -1,0 +1,35 @@
+{
+  "products": [
+    {
+      "title": "Szara bluza z kapturem",
+      "slogan": "Najlepsza bluza z kapturem, jaką oferujemy",
+      "description": "Nawet jeśli nie mieszkasz w kolonii nudystów, zdarzają się chwile, gdy czujesz chłód i potrzebujesz założyć cos cieplego. Na te momenty nie ma nic lepszego niz ta stylowa bluza Fantastic z kapturem. Wykonana w 100% z bawełny, nadająca się do prania w pralce, ta bluza o średniej gramaturze to wszystko, czego potrzebujesz, aby czuć się komfortowo, gdy temperatura spada. A ponieważ możliwość przenoszenia niezbędnych rzeczy jest ważna, bluza ma dwie pojemne kieszenie typu kangur, aby nic, czego potrzebujesz, nigdy się nie zgubito.",
+      "stars": 0,
+      "category": "Odzież",
+      "img_url": "/img/products/hoodie.jpg",
+      "price": 29.9,
+      "reviews": []
+    },
+    {
+      "title": "Kubek do kawy",
+      "slogan": "Utrzymaj swoją kawe gorąca!",
+      "description": "Kubek to rodzaj naczynia używanego do picia gorących napojów, takich jak kawa, herbata, gorąca czekolada lub zupa. Kubki zazwyczaj mają uchwyty i mieszczą większą ilość płynu niż inne rodzaje filizanek. Zazwyczaj kubek mieści około 350 ml płynu; dwa razy więcej niż filizanka do herbaty. Kubek jest mniej formalnym naczyniem i zwykle nie jest używany w formalnych nakryciach stołowych, gdzie preferowana jest filiżanka do herbaty lub kawy.",
+      "stars": 0,
+      "category": "Kuchnia",
+      "img_url": "/img/products/mug.jpg",
+      "price": 12.5,
+      "reviews": [
+        {
+          "name": "Kasia",
+          "comment": "Bardzo solidny, polecam!",
+          "stars": 5
+        },
+        {
+          "name": "Tomek",
+          "comment": "Dobrze trzyma ciepło.",
+          "stars": 4
+        }
+      ]
+    }
+  ]
+}
