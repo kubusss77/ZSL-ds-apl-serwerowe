@@ -1,0 +1,35 @@
+<table>
+    <tr>
+        <th>id</th>
+        <th>model</th>
+        <th>ubezpieczony</th>
+        <th>benzyna</th>
+        <th>uszkodzony</th>
+        <th>napęd 4x4</th>
+    </tr>
+    {{#each doc}}
+    <tr>
+        <td>{{_id}}</td>
+        <td>{{model}}</td>
+        <td>{{ubez}}</td>
+        <td>{{benz}}</td>
+        <td>{{uszk}}</td>
+        <td>{{naped}}</td>
+        <td><button onclick="info('{{_id}} {{model}} {{ubez}} {{benz}} {{uszk}} {{naped}}')">INFO</button></td>
+    </tr>
+    {{/each}}
+</table>
+
+<script>
+    function info(params) {
+        const data = params.split(' ')
+        alert(JSON.stringify({
+            _id: data[0],
+            model: data[1],
+            ubez: data[2],
+            banz: data[3],
+            uszk: data[4],
+            naped: data[5]
+        }, null, 5))
+    }
+</script>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        form {
+            margin: 10px;
+            padding: 20px;
+            background: #f8f8f8;
+            border: 2px solid lightgray;
+            border-radius: 5px;
+            box-shadow: 0 0 5px lightgrey;
+            width: 300px;
+        }
+
+        select {
+            width: 300px;
+            padding: 5px;
+            background: #eee;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>zad 01: formularz wysyłany metodą POST</h1>
+    <form action="/handleForm" method="POST">
+        <select name="count">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+        </select>
+        <br>
+
+        <select name="color">
+            <option value="red">red</option>
+            <option value="green">green</option>
+            <option value="blue">blue</option>
+        </select>
+        <br>
+
+        <select name="font">
+            <option value="24">24</option>
+            <option value="48">48</option>
+            <option value="72">72</option>
+        </select>
+
+        <input type="radio" name="size" value="small">
+        <label>Small</label>
+        <input type="radio" name="size" value="medium">
+        <label>Medium</label>
+        <input type="radio" name="size" value="big">
+        <label>Big</label>
+        <br>
+        <br>
+
+        <input type="submit">
+    </form>
+</body>
+
+</html>

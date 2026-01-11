@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+        }
+
+        body {
+            display: flex;
+            flex-flow: column;
+            margin-inline: auto;
+            align-items: center;
+            background: lightgray;
+        }
+
+        p {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <input type="file" id="fileInput">
+    <input type="button" id="button" onclick="sendFile()">
+    <script>
+        function sendFile() {
+            const fd = new FormData()
+
+            fd.append("file", document.getElementById("fileInput").files[0]) // pierwszy plik z inputa
+
+            const body = fd
+
+            //const headers = { "Content-Type": "application/json" }
+
+            fetch("/api", { method: "post", body })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data)
+
+
+                }) // odesłane z serwera dane
+                .catch(error => console.log(error)) // ew błąd
+        }
+
+    </script>
+</body>
+
+</html>

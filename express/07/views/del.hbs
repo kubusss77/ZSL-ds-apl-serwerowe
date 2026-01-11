@@ -1,0 +1,27 @@
+<table>
+    <tr>
+        <th>id</th>
+        <th>model</th>
+        <th>ubezpieczony</th>
+        <th>benzyna</th>
+        <th>uszkodzony</th>
+        <th>napęd 4x4</th>
+    </tr>
+    {{#each doc}}
+    <tr>
+        <td>{{_id}}</td>
+        <td>{{model}}</td>
+        <td>{{ubez}}</td>
+        <td>{{benz}}</td>
+        <td>{{uszk}}</td>
+        <td>{{naped}}</td>
+        <td><input type="checkbox" value="{{_id}}" class="checkboxes"></td>
+    </tr>
+    {{/each}}
+    <form action="/del/many">
+
+    </form>
+</table>
+<script>
+    
+</script>

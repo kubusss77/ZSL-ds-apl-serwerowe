@@ -1,0 +1,38 @@
+<header>
+    <h1>File manager</h1>
+</header>
+
+<div style="display: flex; flex-flow: row;">
+    <aside>
+        <button class="btn-new">New folder</button>
+        <button class="btn-new">New file</button>
+    </aside>
+
+    <main>
+        <h2>Folders</h2>
+        <section class="folders">
+            {{#if folders}}
+
+            {{#each folders}}
+            <div class="folder">
+                {{name}}
+            </div>
+            {{/each}}
+            {{else}}
+            <p class="no-content">No folders</p>
+            {{/if}}
+        </section>
+        <h2>Files</h2>
+        <section class="files">
+            {{#if files}}
+            {{#each files}}
+            <div class="file">
+                {{name}}
+            </div>
+            {{/each}}
+            {{else}}
+            <p class="no-content">No files</p>
+            {{/if}}
+        </section>
+    </main>
+</div>

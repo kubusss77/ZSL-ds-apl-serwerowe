@@ -1,0 +1,61 @@
+<h1>SPRAWDZIAN</h1>
+
+<div class="flex">
+    <section>
+        <h2>Wyszukiwarka produktów</h2>
+        <form method="POST" action="/search">
+            <p>nazwa:</p>
+            <input type="text" name="name">
+            <p>Szukaj w polach: </p>
+
+            <div class="flex">
+                <input type="checkbox" name="title">
+                <p>Tytuł</p>
+
+                <input type="checkbox" name="slogan">
+                <p>Slogan</p>
+
+                <input type="checkbox" name="description">
+                <p>Opis</p>
+            </div>
+
+            <input type="submit" value="Szukaj">
+
+
+
+        </form>
+    </section>
+    <section>
+        <h2>Dodaj nowy</h2>
+        <button><a href="/add">Dodaj nowy</a></button>
+    </section>
+    <form method="POST" action="/reset">
+        <input type="submit" value="Resetuj">
+    </form>
+</div>
+
+
+
+
+
+
+
+<table>
+    <tr>
+        <th>Nazwa</th>
+        <th>Kategoria</th>
+        <th>Slogan</th>
+        <th>Opis</th>
+        <th>Rate</th>
+    </tr>
+    {{#each products}}
+    <tr>
+        <td>{{title}}</td>
+        <td>{{category}}</td>
+        <td>{{slogan}}</td>
+        <td>{{description}}</td>
+        <td>{{balls}}</td>
+        <td><button><a href="/edit?product={{@index}}">Edytuj</a></button></td>
+    </tr>
+    {{/each}}
+</table>

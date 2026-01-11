@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+        }
+
+        body {
+            display: flex;
+            flex-flow: column;
+            margin-inline: auto;
+            align-items: center;
+            background: lightgray;
+        }
+
+        p {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <form enctype="multipart/form-data" method="POST" action="/handleUpload">
+        <p>Data</p><input type="date" name="date">
+
+        <p>Nazwa</p>
+        <input type="text" name="text">
+
+        <p>Zdjęcie</p>
+        <input type="file" required accept="image/*" name="photo">
+
+        <input name="bt1" type="hidden" value="upload">
+
+        <input type="submit">
+    </form>
+</body>
+
+</html>

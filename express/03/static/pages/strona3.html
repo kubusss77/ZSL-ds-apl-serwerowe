@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #d1 {
+            width: 50px;
+            height: 20px;
+            background: red;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>01 - form, inputs, select</h1>
+    <form>
+        <input type="text" id="imie">
+        <input type="text" id="nazwisko">
+        <div id="d1">login</div>
+
+        <script>
+            document.getElementById("d1").onclick = function () {
+                const imie = document.getElementById("imie").value;
+                const nazwisko = document.getElementById("nazwisko").value;
+
+                const data = JSON.stringify({
+                    imie,
+                    nazwisko
+                })
+
+                const options = {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: data,
+                }
+
+                fetch("/fetch", options)
+                    .then(response => response.json()) // konwersja na obiekt json, jeśli konieczne
+                    .then(dataFromServer => alert(JSON.stringify(dataFromServer, null, 5))) // sformatowane z wcięciami dane odpowiedzi z serwera
+                    .catch(error => console.log(error));
+            }
+        </script>
+    </form>
+</body>
+
+</html>

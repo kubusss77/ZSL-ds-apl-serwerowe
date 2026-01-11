@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #d1 {
+            width: 50px;
+            height: 20px;
+            background: red;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>01 - form, inputs, select</h1>
+    <form action="/handleForm" method="POST">
+        <input type="text" id="num1">
+        <input type="text" id="num2">
+        <select id="dzialanie">
+            <option value="suma">suma</option>
+            <option value="roznica">roznica</option>
+            <option value="iloczyn">iloczyn</option>
+            <option value="iloraz">iloraz</option>
+            <option value="wszystkie">wszystkie</option>
+        </select>
+        <div id="d1">Wyślij</div>
+
+        <script>
+            document.getElementById("d1").onclick = function () {
+                const num1 = document.getElementById("num1").value;
+                const num2 = document.getElementById("num2").value;
+                const dzialanie = document.getElementById("dzialanie").value;
+
+                const data = JSON.stringify({
+                    num1,
+                    num2,
+                    dzialanie
+                })
+
+                const options = {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: data,
+                }
+
+                fetch("/fetch", options)
+                    .then(response => response.json()) // konwersja na obiekt json, jeśli konieczne
+                    .then(dataFromServer => alert(JSON.stringify(dataFromServer, null, 5))) // sformatowane z wcięciami dane odpowiedzi z serwera
+                    .catch(error => console.log(error));
+            }
+        </script>
+    </form>
+</body>
+
+</html>

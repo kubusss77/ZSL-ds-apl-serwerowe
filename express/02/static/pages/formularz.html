@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        form {
+            margin: 10px;
+            padding: 20px;
+            background: #f8f8f8;
+            border: 2px solid lightgray;
+            border-radius: 5px;
+            box-shadow: 0 0 5px lightgrey;
+            display: inline;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>zad 01: formularz wysyłany metodą GET</h1>
+    <form action="/handleForm" method="GET">
+        <label for="color">Wybierz kolor: </label>
+        <input type="text" name="hiddenField" value="pole ukryte" class="hidden">
+        <input type="color" name="color">
+        <input type="radio" name="radio">
+        <input type="checkbox" name="checkbox">
+        <input type="checkbox" name="checkbox">
+
+        <input type="submit">
+    </form>
+</body>
+
+</html>

@@ -1,0 +1,27 @@
+* {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+}
+
+h1 {
+    border-bottom: 1px solid lightblue;
+    margin: 20px;
+}
+
+p,
+h3 {
+    padding: 5px;
+    background: rgb(213, 231, 255);
+    border-radius: 5px;
+    color: rgb(0, 64, 148);
+    margin: 20px;
+
+}
+
+footer {
+    background: lightgray;
+    width: 100%;
+    text-align: center;
+    padding: 20px;
+    color: gray;
+}

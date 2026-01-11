@@ -1,0 +1,44 @@
+<h1>Dodaj produkt</h1>
+
+<form method="POST" action="/add">
+    <div class="flex">
+        <section>
+            <h2>Dane podstawowe</h2>
+            <p>nazwa:</p>
+            <input type="text" name="title" value="{{product.title}}">
+            <p>Slogan:</p>
+            <input type="text" name="slogan" value="{{product.slogan}}">
+            <p>Opis</p>
+            <textarea name="description">{{product.description}}</textarea>
+        </section>
+        <section>
+            <h2>Parametry</h2>
+            <p>kategoria</p>
+            <select name="category" value="{{product.category}}">
+                {{#each categories}}
+                <option>{{this}}</option>
+                {{/each}}
+            </select>
+            <p>Cena</p>
+            <input type="range" min="1" max="100" name="price">
+        </section>
+        <section>
+            <h2>Ocena</h2>
+            <p>Ocena 1-10</p>
+            {{#each oceny}}
+            <div class="radio flex">
+                <input type="radio" name="ocena" value="{{index}}">
+                <p> {{index}} </p>
+                {{#each ocena }}
+
+                <img class="bombka"
+                    src="http://admins.spec.pl.hostingasp.pl/Stefa%C5%84czyk_Dariusz/temp/christmas_ball.png">
+                {{/each}}
+
+            </div>
+            {{/each}}
+        </section>
+    </div>
+
+    <input type="submit" value="Dodaj produkt">
+</form>

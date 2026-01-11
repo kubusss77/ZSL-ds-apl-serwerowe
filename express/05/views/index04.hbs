@@ -1,0 +1,9 @@
+<h1>{{ subject }}</h1>
+<form method="GET" action="/handle04">
+    <select name="fields" size="{{fields.length}}">
+        {{#each fields}}
+        <option value="{{name}}">{{name}}</option>
+        {{/each}}
+    </select>
+    <input type="submit">
+</form>

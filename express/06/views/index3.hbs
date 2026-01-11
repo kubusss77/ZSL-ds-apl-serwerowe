@@ -1,0 +1,33 @@
+<h1>03</h1>
+
+<table>
+    <tr>
+        <th>lp</th>
+        <th>name</th>
+        <th>price</th>
+        <th></th>
+    </tr>
+    {{#each docs}}
+    <tr>
+        <td>{{lp}}</td>
+        <td>{{name}}</td>
+        <td>{{price}}</td>
+        <td><input type="checkbox" name="check" value="{{_id}}"></td>
+    </tr>
+    {{/each}}
+</table>
+
+<p>{{text}}</p>
+
+<button id="del" onclick="del()">Usuń zaznaczone</button>
+<button id="revert" onclick="revert()">Przywróć dane</button>
+
+<script>
+    function del() {
+        const checkboxes = document.getElementsByName('check')
+    }
+
+    function revert() {
+
+    }
+</script>
