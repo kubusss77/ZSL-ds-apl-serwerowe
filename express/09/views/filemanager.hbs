@@ -1,5 +1,8 @@
 <header>
   <h1>File manager</h1>
+  <div class="path">
+    {{path}}
+  </div>
 </header>
 
 <div style="display: flex; flex-flow: row;">
@@ -12,14 +15,17 @@
         </aside>
 
         <main>
-            <h2>Folders</h2>
+            <div style="display: flex;">
+                <h2>Folders</h2>
+                {{#if hrefParentPath}}
+                <a href="?path={{hrefParentPath}}">Back</a>
+                {{/if}}
+            </div>
+            
             <section class="folders">
             {{#if folders}}
-
                 {{#each folders}}
-                <div class="folder">
-                    {{name}}
-                </div>
+                <a class="folder" href="?path={{../hrefPath}}%2F{{name}}">{{name}}</a>
                 {{/each}}
             {{else}}
                 <p class="no-content">No folders</p>
@@ -29,9 +35,7 @@
             <section class="files">
             {{#if files}}
                 {{#each files}}
-                <div class="file">
-                    {{name}}
-                </div>
+                <a class="file">{{name}}</a>
                 {{/each}}
             {{else}}
                 <p class="no-content">No files</p>

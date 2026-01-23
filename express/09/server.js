@@ -25,13 +25,17 @@ app.set("views", path.join(__dirname, "views"));
 
 app.get("/", function (req, res) {
   try {
-    const objects = fs.readdirSync(__dirname + "/files");
+    const relPath = req.query.path || "";
+    const absPath = __dirname + "\\files\\" + relPath;
+
+    const objects = fs.readdirSync(absPath);
 
     const files = [];
     const folders = [];
 
     objects.forEach((name) => {
-      const isDir = fs.lstatSync(__dirname + "/files/" + name).isDirectory();
+      const childPath = __dirname + "/files/" + relPath + "/" + name;
+      const isDir = fs.lstatSync(childPath).isDirectory();
       if (isDir) {
         folders.push({ name });
       } else {
@@ -39,14 +43,35 @@ app.get("/", function (req, res) {
       }
     });
 
-    res.render("filemanager.hbs", { folders, files });
-  } catch (error) {
     res.render("filemanager.hbs", {
-      error: {
-        message: "Error reading files",
-        details: error.message,
-      },
+      path: relPath,
+      hrefPath: relPath.split("/").join("%2F"),
+      hrefParentPath: "/" + relPath.split("/").slice(0, -1).join("%2F"),
+      folders,
+      files,
     });
+  } catch (error) {
+    renderError(res, "Error reading files", error.message);
+  }
+});
+
+function renderError(res, message, details) {
+  res.render("filemanager.hbs", {
+    error: {
+      message,
+      details,
+    },
+  });
+}
+
+/**
+ * Files/folders actions
+ */
+app.post("/actions/folder", function (req, res) {
+  try {
+    // const name = req.
+  } catch (error) {
+    renderError(res, "Error adding folder", error.message);
   }
 });
 
@@ -54,3 +79,5 @@ console.clear();
 app.listen(PORT, function () {
   console.log("start serwera na porcie " + PORT);
 });
+
+console.log(encodeURIComponent("/"));
