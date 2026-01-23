@@ -24,15 +24,30 @@ app.set("view engine", ".hbs");
 app.set("views", path.join(__dirname, "views"));
 
 app.get("/", function (req, res) {
-  fs.readdir(__dirname + "/files", (err, files) => {
-    if (err) throw err;
-    console.log("lista", files);
-  });
-  const context = {
-    folders: 1,
-    files: 2,
-  };
-  res.render("filemanager.hbs");
+  try {
+    const objects = fs.readdirSync(__dirname + "/files");
+
+    const files = [];
+    const folders = [];
+
+    objects.forEach((name) => {
+      const isDir = fs.lstatSync(__dirname + "/files/" + name).isDirectory();
+      if (isDir) {
+        folders.push({ name });
+      } else {
+        files.push({ name });
+      }
+    });
+
+    res.render("filemanager.hbs", { folders, files });
+  } catch (error) {
+    res.render("filemanager.hbs", {
+      error: {
+        message: "Error reading files",
+        details: error.message,
+      },
+    });
+  }
 });
 
 console.clear();

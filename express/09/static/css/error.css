@@ -1,0 +1,17 @@
+.error {
+  margin-inline: auto;
+  width: 20rem;
+  text-align: center;
+  background: #8f3737;
+  border-radius: 1rem;
+  box-shadow: 0 0 1rem #8f3737;
+  padding: 1rem;
+}
+
+.error-message {
+  margin-block: 0.5rem;
+}
+
+.error-details {
+  color: #aaa;
+}
