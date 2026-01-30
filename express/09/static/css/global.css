@@ -51,15 +51,24 @@ main {
   max-width: 60rem;
 }
 
+dialog {
+  margin: auto;
+
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 0 0 1rem white;
+  border-radius: 0.5rem;
+  border: none;
+}
+
 h2 {
   width: 100%;
 }
 
-main a {
+.browser a {
   text-decoration: none;
 }
 
-main a:hover {
+.browser a:hover {
   box-shadow: 0 0 0.5rem rgba(255, 255, 255, 0.3);
 }
 
@@ -93,4 +102,25 @@ main a:hover {
 
 .no-content {
   text-align: center;
+}
+
+.back-arrow {
+  color: white;
+  font-size: 2rem;
+  line-height: 75%;
+  text-decoration: none;
+}
+
+.back-arrow:hover {
+  text-shadow: 0 0 10px darkcyan;
+}
+
+.error {
+  text-align: center;
+  background: #8f3737;
+  border-radius: 0.5rem;
+  box-shadow: 0 0 0.5rem #8f3737;
+  margin-top: 1rem;
+  padding: 0.5rem;
+  color: white;
 }

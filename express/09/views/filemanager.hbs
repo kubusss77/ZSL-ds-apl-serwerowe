@@ -1,48 +1,57 @@
 <header>
   <h1>File manager</h1>
   <div class="path">
-    {{path}}
+    {{ path }}
   </div>
 </header>
 
-<div style="display: flex; flex-flow: row;">
+<div style="display: flex; flex-flow: row">
+  <aside>
+    <button class="btn-new" onclick="document.getElementById('new-folder-dialog').showModal()">New folder</button>
+    <button class="btn-new">New file</button>
+  </aside>
+
+  <dialog id="new-folder-dialog">
+    <form action="/new/folder" method="POST">
+      <p>Create new folder</p>
+      <input type="hidden" name="path" value="{{path}}">
+      <input name="name" required="required" />
+      <input type="submit" value="Create" />
+      <button onclick="document.getElementById('new-folder-dialog').close(); window.location.href = '?path={{hrefPath}}';">Cancel</button>
+    </form>
     {{#if error}}
-        {{> error}}
-    {{else }}
-        <aside>
-            <button class="btn-new">New folder</button>
-            <button class="btn-new">New file</button>
-        </aside>
-
-        <main>
-            <div style="display: flex;">
-                <h2>Folders</h2>
-                {{#if hrefParentPath}}
-                <a href="?path={{hrefParentPath}}">Back</a>
-                {{/if}}
-            </div>
-            
-            <section class="folders">
-            {{#if folders}}
-                {{#each folders}}
-                <a class="folder" href="?path={{../hrefPath}}%2F{{name}}">{{name}}</a>
-                {{/each}}
-            {{else}}
-                <p class="no-content">No folders</p>
-            {{/if}}
-            </section>
-            <h2>Files</h2>
-            <section class="files">
-            {{#if files}}
-                {{#each files}}
-                <a class="file">{{name}}</a>
-                {{/each}}
-            {{else}}
-                <p class="no-content">No files</p>
-            {{/if}}
-            </section>
-        </main>
+      <p class="error">{{ error }}</p>
+      <script>document.getElementById('new-folder-dialog').showModal()</script>
     {{/if}}
+  </dialog>
 
-  
+  <main class="browser">
+    <div style="display: flex">
+      <h2>Folders</h2>
+      {{#if path}}
+      <a href="?path={{ hrefParentPath }}" class="back-arrow">↩</a>
+      {{/if}}
+    </div>
+    
+    {{#if folders}}
+      <section class="folders">
+        {{#each folders}}
+          <a class="folder" href="?path={{ ../hrefPath }}{{ name }}">{{ name }}</a>
+        {{/each}}
+      </section>
+    {{else}}
+      <p class="no-content">No folders</p>
+    {{/if}}
+    
+    <h2>Files</h2>
+    {{#if files}}
+      <section class="files">
+        {{#each files}}
+        <a class="file">{{ name }}</a>
+        {{/each}}
+      </section>
+    {{else}}
+      <p class="no-content">No files</p>
+    {{/if}}
+  </main>
 </div>
