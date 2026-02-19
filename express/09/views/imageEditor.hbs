@@ -1,0 +1,47 @@
+<header>
+  <div style='display: flex;'>
+    <a href='/'>
+      <p class='h1-upper-text'>Image editor</p>
+      <h1>File manager</h1>
+    </a>
+    <div class='path'>
+      {{#each data.pathsArray}}
+        <a href='?path={{path}}'>/{{name}}</a>
+      {{/each}}
+    </div>
+  </div>
+  <ul class='buttons'>
+    <li class='btn-menu' onclick="document.getElementById('rename-file-dialog').showModal()">
+      <i class='fi fi-rr-text-box-edit'></i>
+      <div class='btn-menu-text'>
+        <p>Rename file</p>
+      </div>
+    </li>
+    <li class='btn-menu' onclick="document.getElementById('save-config-dialog').showModal()">
+      <i class='fi fi-rr-gears'></i>
+      <div class='btn-menu-text'>
+        <p>Save config</p>
+      </div>
+    </li>
+    <li class='btn-menu' onclick="document.getElementById('change-color-dialog').showModal()">
+      <i class='fi fi-rr-palette'></i>
+      <div class='btn-menu-text'>
+        <p>Change color</p>
+      </div>
+    </li>
+  </ul>
+</header>
+
+<main>
+  {{#each data.filters}}
+    <div class='filters'>
+      <p>{{name}}</p>
+        <div class="filter-preview" style="background-image:url('/raw?path={{../data.path}}&name={{../data.name}}');filter:{{name}}(100%)">
+        </div>
+    </div>
+  {{/each}}
+  <h2>Canvas</h2>
+  <canvas id="myCanvas" onClick="applyFilter('{{data.filters.[0].name}}(100%)')"></canvas>
+</main>
+
+<script src="/js/imageEditor.js"></script>

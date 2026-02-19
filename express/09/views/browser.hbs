@@ -1,0 +1,231 @@
+<header>
+  <div style="display: flex;">
+    <a href="?path=/">
+      <p class="h1-upper-text">Browser</p>
+      <h1>File manager</h1>
+    </a>
+    <div class="path">
+      {{#each data.pathsArray}}
+        <a href="?path={{ path }}">/{{ name }}</a>
+      {{/each}}
+    </div>
+  </div>
+  <ul class="buttons">
+    {{#if data.currentPath}}
+    <li class="btn-menu" onclick="document.getElementById('rename-folder-dialog').showModal()">
+      <i class="fi fi-rr-text-box-edit"></i>
+      <div class="btn-menu-text">
+        <p>Rename current folder</p>
+      </div>
+    </li>
+    {{/if}}
+    <li class="btn-menu" onclick="document.getElementById('new-folder-dialog').showModal()">
+      <i class="fi fi-rr-add-folder"></i>
+      <div class="btn-menu-text">
+        <p>New folder</p>
+      </div>
+    </li>
+    <li class="btn-menu" onclick="document.getElementById('new-file-dialog').showModal()">
+        <i class="fi fi-rr-add-document"></i>
+        <div class="btn-menu-text">
+          <p>New file</p>
+        </div>
+    </li>
+    <li class="btn-menu" onclick="document.getElementById('upload-file-dialog').showModal()">
+      <i class="fi fi-rr-cloud-upload-alt"></i>
+      <div class="btn-menu-text">
+        <p>Upload</p>
+      </div>
+    </li>
+  </ul>
+</header>
+
+<dialog id="upload-file-dialog">
+    <form action="/upload" method="POST" enctype="multipart/form-data">
+      <p>Upload file</p>
+      <input type="hidden" name="path" value="{{data.currentPath}}">
+      <input type="file" name="imagetoupload" class="files-input" multiple required>
+      <button type="submit" class="btn-submit">Upload</button>
+      <button type="reset" class="btn-cancel" onclick="document.getElementById('upload-file-dialog').close()">Cancel</button>
+    </form>
+</dialog>
+
+<dialog id="new-folder-dialog">
+  <form action="/new/folder" method="POST">
+    <p>Create new folder</p>
+    <div>
+    <input type="hidden" name="path" value="{{data.currentPath}}">
+    <input name="name" required="required" class="text-input"/>
+    <button type="submit" class="btn-submit">Create</button>
+    <button type="reset" class="btn-cancel" onclick="document.getElementById('new-folder-dialog').close();">Cancel</button>
+    </div>
+  </form>
+  {{#if (eq error.type 'folder')}}
+    <p class="error">{{ error.message }}</p>
+    <script>document.getElementById('new-folder-dialog').showModal()</script>
+  {{/if}}
+</dialog>
+
+<dialog id="new-file-dialog">
+  <form action="/new/file" method="POST">
+    <p>Create new file</p>
+    <div style="display: flex; justify-content: center; gap: 0.5rem;">
+    <input type="hidden" name="path" value="{{data.currentPath}}">
+    <input name="name" required="required" class="text-input"/>
+    <select name="extension" required="required" class="text-input">
+      <option value=".txt">.txt</option>
+      <option value=".html">.html</option>
+      <option value=".css">.css</option>
+      <option value=".js">.js</option>
+      <option value=".json">.json</option>
+    </select>
+    <button type="submit" class="btn-submit">Create</button>
+    <button type="reset" class="btn-cancel" id="btn-cancel-file" onclick="document.getElementById('new-file-dialog').close();">Cancel</button>
+    </div>
+  </form>
+  {{#if (eq error.type 'file')}}
+    <p class="error">{{ error.message }}</p>
+    <script>
+      document.getElementById('new-file-dialog').showModal()
+      document.getElementById('btn-cancel-file').addEventListener('click', () => {
+        window.location.href = '?path={{data.currentPath}}';
+      });
+    </script>
+  {{/if}}
+</dialog>
+
+<dialog id="rename-folder-dialog">
+  <form action="/rename/folder" method="POST">
+    <p>Rename folder</p>
+    <div style="display: flex; justify-content: center; gap: 0.5rem;">
+      <input type="hidden" name="currentPath" value="{{ data.currentPath }}">
+      <input type="hidden" name="parentPath" value="{{ data.parentPath }}">
+      <input name="newName" required="required" class="text-input"/>
+      <button type="submit" class="btn-submit">Rename</button>
+      <button type="reset" class="btn-cancel" onclick="document.getElementById('rename-folder-dialog').close();">Cancel</button>
+    </div>
+  </form>
+  {{#if (eq error.type 'rename')}}
+    <p class="error">{{ error.message }}</p>
+    <script>
+      document.getElementById('rename-folder-dialog').showModal()
+    </script>
+  {{/if}}
+</dialog>
+
+<main class="browser">
+  <div style="display: flex">
+    <h2>Folders</h2>
+    {{#if data.currentPath}}
+    <a href="?path={{ data.parentPath }}" class="back-arrow hover-white">↩</a>
+    {{/if}}
+  </div>
+  
+  {{#if data.folders}}
+    <section class="folders">
+      {{#each data.folders}}
+        <div class="folder" data-name="{{ fullName }}">
+          <div class="folder-icons">
+            <i class="fi fi-rr-folder-minus folder-icon"></i>
+            <div class="action-btns">
+              <div class="btn-delete-folder" data-name="{{ fullName }}">
+                <i class="fi fi-rr-trash hover-white btn-delete"></i>
+              </div>
+              <a href="/download/folder?path={{ ../data.currentPath }}/&name={{ fullName }}">
+                <i class="fi fi-rr-download hover-white btn-download"></i>
+              </a>
+            </div>
+          </div>
+          <div class="folder-name">
+            <p>{{ name }}</p>
+          </div>
+        </div>
+      {{/each}}
+    </section>
+  {{else}}
+    <p class="no-content">No folders</p>
+  {{/if}}
+  
+  <h2 style="margin-top: 1rem;">Files</h2>
+  {{#if data.files}}
+    <section class="files">
+      {{#each data.files}}
+        <div class="file" data-name="{{ fullName }}">
+          <div class="file-icons">
+            <i class="fi fi-rr-document file-icon"></i>
+            <div class="action-btns">
+              <div class="btn-delete-file" data-name="{{ fullName }}">
+                <i class="fi fi-rr-trash hover-white btn-delete"></i>
+              </div>
+              <a href="/download/file?path={{ ../data.currentPath }}/&name={{ fullName }}">
+                <i class="fi fi-rr-download hover-white btn-download"></i>
+              </a>
+            </div>
+          </div>
+          <div class="file-name">
+            <p>{{ name }}</p>
+          </div>
+        </div>
+      {{/each}}
+    </section>
+  {{else}}
+    <p class="no-content">No files</p>
+  {{/if}}
+</main>
+
+<script>
+  console.log('{{ data.currentPath }}');
+
+  const textEditorExtensions = ['.txt', '.html', '.css', '.js', '.json'];
+  const imageEditorExtensions = ['.png', '.jpg', '.jpeg', '.gif', '.bmp'];
+
+  function toggleButtons() {
+    const buttons = document.getElementsByClassName('buttons')[0];
+    buttons.classList.toggle('active');
+  }
+
+  const folders = document.getElementsByClassName('folder');
+  for (let folder of folders) {
+    folder.addEventListener('click', () => {
+      window.location.href = '?path={{ data.currentPath }}/' + folder.getAttribute('data-name');
+    });
+  }
+
+  const files = document.getElementsByClassName('file');
+  for (let file of files) {
+    file.addEventListener('click', () => {
+      const name = file.getAttribute('data-name');
+      if (textEditorExtensions.some(ext => name.endsWith(ext))) {
+        window.location.href = '/editor?path={{ data.currentPath }}/&name=' + name
+      } else if (imageEditorExtensions.some(ext => name.endsWith(ext))) {
+        window.location.href = '/editor/image?path={{ data.currentPath }}/&name=' + name
+      } else {
+      window.location.href = '/editor?path={{ data.currentPath }}/&name=' + name;
+      }
+    });
+  }
+
+  const deleteFileButtons = document.getElementsByClassName('btn-delete-file');
+  for (let btn of deleteFileButtons) {
+    btn.addEventListener('click', (event) => {
+      event.stopPropagation();
+
+      const confirmation = confirm('Are you sure you want to delete this file?');
+      if (confirmation) {
+        window.location.href = `/delete/file?path={{ data.currentPath }}/&name=${btn.getAttribute('data-name')}`;
+      }
+    });
+  }
+  
+  const deleteFolderButtons = document.getElementsByClassName('btn-delete-folder');
+  for (let btn of deleteFolderButtons) {
+    btn.addEventListener('click', (event) => {
+      event.stopPropagation();
+
+      const confirmation = confirm('Are you sure you want to delete this folder? All files and subfolders will be deleted as well.');
+      if (confirmation) {
+        window.location.href = `/delete/folder?path={{ data.currentPath }}/&name=${btn.getAttribute('data-name')}`;
+      }
+    });
+  }
+</script>

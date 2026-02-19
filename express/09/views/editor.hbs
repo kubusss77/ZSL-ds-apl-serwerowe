@@ -1,0 +1,47 @@
+<header>
+  <div style='display: flex;'>
+    <a href='/'>
+      <p class='h1-upper-text'>Editor</p>
+      <h1>File manager</h1>
+    </a>
+    <div class='path'>
+      {{#each data.pathsArray}}
+        <a href='?path={{path}}'>/{{name}}</a>
+      {{/each}}
+    </div>
+  </div>
+  <ul class='buttons'>
+    <li class='btn-menu' onclick="document.getElementById('rename-file-dialog').showModal()">
+      <i class='fi fi-rr-text-box-edit'></i>
+      <div class='btn-menu-text'>
+        <p>Rename file</p>
+      </div>
+    </li>
+    <li class='btn-menu' onclick="document.getElementById('save-config-dialog').showModal()">
+      <i class='fi fi-rr-gears'></i>
+      <div class='btn-menu-text'>
+        <p>Save config</p>
+      </div>
+    </li>
+    <li class='btn-menu' onclick="document.getElementById('change-color-dialog').showModal()">
+      <i class='fi fi-rr-palette'></i>
+      <div class='btn-menu-text'>
+        <p>Change color</p>
+      </div>
+    </li>
+  </ul>
+</header>
+
+<main>
+  <form action='/editor' method='POST'>
+    <input type='hidden' name='path' value='{{data.path}}' />
+    <input type='hidden' name='name' value='{{data.name}}' />
+    <div class='editor'>
+      <div class='line-numbers'>ds</div>
+      <textarea name='content' id='file-content' placeholder='Empty file'>{{data.content}}</textarea>
+    </div>
+    <button type='submit' class='btn-submit'>Save</button>
+  </form>
+</main>
+
+<script src='/js/editor.js'></script>
