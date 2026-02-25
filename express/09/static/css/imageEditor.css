@@ -12,7 +12,8 @@ main {
 
 .filters {
   width: 32rem;
-  background: #333;
+  background: rgba(64, 64, 64, 0.5);
+  backdrop-filter: blur(0.5rem);
   text-align: center;
   padding: 1rem;
   border-radius: 2rem;
@@ -33,6 +34,9 @@ main {
   height: 5rem;
   border-radius: 1rem;
   margin: 0.5rem;
+  background-position: center;
+  background-size: cover;
+  cursor: pointer;
 }
 
 .sliders {

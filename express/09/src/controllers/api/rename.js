@@ -43,6 +43,43 @@ function renameFolderController(req, res) {
   }
 }
 
+function renameFileController(req, res) {
+  try {
+    const filePath = req.body.path;
+    const fileOldName = req.body.oldName;
+    const fileNewName = req.body.newName;
+
+    if (!filePath || !fileOldName || !fileNewName) {
+      renderError(res, 'File path, old name and/or new name are required');
+      return;
+    }
+
+    if (filePath.includes('/../') || fileOldName.includes('/../') || fileNewName.includes('/../')) {
+      renderError(res, 'Forbidden characters in file path and/or name', '');
+      return;
+    }
+
+    const absOldPath = path.join(FILES_DIR, filePath, fileOldName);
+    if (!fs.existsSync(absOldPath)) {
+      renderError(res, 'File does not exist');
+      return;
+    }
+
+    const absNewPath = path.join(FILES_DIR, filePath, fileNewName);
+    if (fs.existsSync(absNewPath)) {
+      renderError(res, 'File already exists');
+      return;
+    }
+
+    fs.renameSync(absOldPath, absNewPath);
+
+    res.redirect('/?path=' + filePath);
+  } catch (error) {
+    renderError(res, 'Error renaming file', error.message);
+  }
+}
+
 module.exports = {
   renameFolderController,
+  renameFileController,
 };

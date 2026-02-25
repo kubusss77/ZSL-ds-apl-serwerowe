@@ -7,25 +7,38 @@ const { fileExample } = require('../../exampleFileContent');
 function newFolderController(req, res) {
   try {
     const folderPath = req.body.path || '';
-    const name = req.body.name;
+    const folderName = req.body.name;
 
-    if (name === '') {
-      res.redirect(
-        '/?path=' + encodeURIComponent(folderPath || '/') + '&error_type=folder&error_message=name_required'
-      );
+    if (!folderPath) {
+      res.redirect('/?path=/&error_type=folder&error_message=path_required');
       return;
     }
 
-    const absPath = path.join(FILES_DIR, folderPath, name);
+    if (!folderName) {
+      res.redirect('/?path=' + folderPath + '&error_type=folder&error_message=name_required');
+      return;
+    }
+
+    if (folderPath.includes('..') || folderName.includes('..')) {
+      res.redirect('/?path=' + folderPath + '&error_type=folder&error_message=folder_invalid_name');
+      return;
+    }
+
+    const folderNameRegExp = /^[a-zA-Z0-9_+.-]+$/;
+    if (!folderNameRegExp.test(folderName)) {
+      res.redirect('/?path=' + folderPath + '&error_type=folder&error_message=folder_invalid_name');
+      return;
+    }
+
+    const absPath = path.join(FILES_DIR, folderPath, folderName);
     if (fs.existsSync(absPath)) {
-      res.redirect(
-        '/?path=' + encodeURIComponent(folderPath || '/') + '&error_type=folder&error_message=folder_exists'
-      );
+      res.redirect('/?path=' + folderPath + '&error_type=folder&error_message=folder_exists');
       return;
     }
 
     fs.mkdirSync(absPath);
-    res.redirect('/?path=' + encodeURIComponent(folderPath));
+
+    res.redirect('/?path=' + folderPath);
   } catch (error) {
     renderError(res, 'Error adding folder', error.message);
   }
@@ -33,45 +46,44 @@ function newFolderController(req, res) {
 
 function newFileController(req, res) {
   try {
-    const filePath = req.body.path || '';
-    const name = req.body.name;
-    const extension = req.body.extension;
+    const filePath = req.body.path;
+    const fileName = req.body.name;
+    const fileExtension = req.body.extension;
 
-    if (name === '') {
-      res.redirect('/?path=' + encodeURIComponent(filePath || '/') + '&error_type=file&error_message=name_required');
+    if (!filePath) {
+      res.redirect('/?path=/&error_type=file&error_message=path_required');
       return;
     }
 
-    if (!extension) {
-      res.redirect(
-        '/?path=' + encodeURIComponent(filePath || '/') + '&error_type=file&error_message=file_extension_required'
-      );
+    if (!fileName) {
+      res.redirect('/?path=' + filePath + '&error_type=file&error_message=name_required');
       return;
     }
 
-    const fileNameRegExp = /^[a-zA-Z0-9_+.]+$/;
-    if (!fileNameRegExp.test(name)) {
-      res.redirect(
-        '/?path=' + encodeURIComponent(filePath || '/') + '&error_type=file&error_message=file_invalid_name'
-      );
+    if (!fileExtension) {
+      res.redirect('/?path=' + filePath + '&error_type=file&error_message=file_extension_required');
       return;
     }
 
-    // if (!name.includes('.')) {
-    //   res.redirect(
-    //     '/?path=' + encodeURIComponent(filePath || '/') + '&error_type=file&error_message=file_extension_required'
-    //   );
-    //   return;
-    // }
+    if (filePath.includes('..') || fileName.includes('..') || fileExtension.includes('..')) {
+      res.redirect('/?path=' + filePath + '&error_type=file&error_message=file_invalid_name');
+      return;
+    }
 
-    const absPath = path.join(FILES_DIR, filePath, name + extension);
+    const fileNameRegExp = /^[a-zA-Z0-9_+.-]+$/;
+    if (!fileNameRegExp.test(fileName)) {
+      res.redirect('/?path=' + filePath + '&error_type=file&error_message=file_invalid_name');
+      return;
+    }
+
+    const absPath = path.join(FILES_DIR, filePath, fileName + fileExtension);
     if (fs.existsSync(absPath)) {
-      res.redirect('/?path=' + encodeURIComponent(filePath || '/') + '&error_type=file&error_message=file_exists');
+      res.redirect('/?path=' + filePath + '&error_type=file&error_message=file_exists');
       return;
     }
 
-    fs.writeFileSync(absPath, fileExample[extension] || '');
-    res.redirect('/?path=' + encodeURIComponent(filePath));
+    fs.writeFileSync(absPath, fileExample[fileExtension] || '');
+    res.redirect('/?path=' + filePath);
   } catch (error) {
     renderError(res, 'Error adding file', error.message);
   }

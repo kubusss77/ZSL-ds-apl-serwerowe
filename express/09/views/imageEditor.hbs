@@ -5,9 +5,8 @@
       <h1>File manager</h1>
     </a>
     <div class='path'>
-      {{#each data.pathsArray}}
-        <a href='?path={{path}}'>/{{name}}</a>
-      {{/each}}
+        <a href='/?path={{data.path}}'>{{data.path}}</a>
+        <p>{{data.name}}</p>
     </div>
   </div>
   <ul class='buttons'>
@@ -17,26 +16,55 @@
         <p>Rename file</p>
       </div>
     </li>
-    <li class='btn-menu' onclick="toggleFilters()">
-      <i class='fi fi-rr-settings-sliders'></i>
-      <div class='btn-menu-text'>
-        <p>Filters</p>
-      </div>
-    </li>
     <li class='btn-menu' onclick="crop()">
       <i class='fi fi-rr-tool-crop'></i>
       <div class='btn-menu-text'>
         <p>Crop</p>
       </div>
     </li>
-    <li class='btn-menu' onclick="document.getElementById('change-color-dialog').showModal()">
-      <i class='fi fi-rr-palette'></i>
+    <li class='btn-menu' onclick="toggleFilters()">
+      <i class='fi fi-rr-settings-sliders'></i>
       <div class='btn-menu-text'>
-        <p>Change color</p>
+        <p>Filters</p>
+      </div>
+    </li>
+    <li class='btn-menu' onclick="cancelEdits()">
+      <i class='fi fi-rr-cross-circle'></i>
+      <div class='btn-menu-text'>
+        <p>Cancel</p>
+      </div>
+    </li>
+    <li class='btn-menu' onclick="saveImage()">
+      <i class='fi fi-rr-disk'></i>
+      <div class='btn-menu-text'>
+        <p>Save</p>
       </div>
     </li>
   </ul>
 </header>
+
+<dialog id='rename-file-dialog'>
+  <form action='/rename/file' method='POST'>
+    <p>Rename file</p>
+    <div style='display: flex; justify-content: center; gap: 0.5rem;'>
+      <input type='hidden' name='path' value='{{data.path}}' />
+      <input type='hidden' name='oldName' value='{{data.name}}' />
+      <input name='newName' required='required' class='text-input' />
+      <button type='submit' class='btn-submit'>Rename</button>
+      <button
+        type='reset'
+        class='btn-cancel'
+        onclick="document.getElementById('rename-file-dialog').close();"
+      >Cancel</button>
+    </div>
+  </form>
+  {{#if (eq error.type 'rename')}}
+    <p class='error'>{{error.message}}</p>
+    <script>
+      document.getElementById('rename-file-dialog').showModal()
+    </script>
+  {{/if}}
+</dialog>
 
 <main>
   <div class='filters' id="filters-box">

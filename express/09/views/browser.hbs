@@ -44,7 +44,7 @@
     <form action="/upload" method="POST" enctype="multipart/form-data">
       <p>Upload file</p>
       <input type="hidden" name="path" value="{{data.currentPath}}">
-      <input type="file" name="imagetoupload" class="files-input" multiple required>
+      <input type="file" name="files" class="files-input" multiple required>
       <button type="submit" class="btn-submit">Upload</button>
       <button type="reset" class="btn-cancel" onclick="document.getElementById('upload-file-dialog').close()">Cancel</button>
     </form>
@@ -113,10 +113,10 @@
   {{/if}}
 </dialog>
 
-<main class="browser">
+<main class="browser" data-path="{{data.currentPath}}">
   <div style="display: flex">
     <h2>Folders</h2>
-    {{#if data.currentPath}}
+    {{#if data.parentPath}}
     <a href="?path={{ data.parentPath }}" class="back-arrow hover-white">↩</a>
     {{/if}}
   </div>
@@ -131,7 +131,7 @@
               <div class="btn-delete-folder" data-name="{{ fullName }}">
                 <i class="fi fi-rr-trash hover-white btn-delete"></i>
               </div>
-              <a href="/download/folder?path={{ ../data.currentPath }}/&name={{ fullName }}">
+              <a href="/download/folder?path={{ ../data.currentPath }}&name={{ fullName }}">
                 <i class="fi fi-rr-download hover-white btn-download"></i>
               </a>
             </div>
@@ -157,7 +157,7 @@
               <div class="btn-delete-file" data-name="{{ fullName }}">
                 <i class="fi fi-rr-trash hover-white btn-delete"></i>
               </div>
-              <a href="/download/file?path={{ ../data.currentPath }}/&name={{ fullName }}">
+              <a href="/download/file?path={{../data.currentPath}}&name={{ fullName }}">
                 <i class="fi fi-rr-download hover-white btn-download"></i>
               </a>
             </div>

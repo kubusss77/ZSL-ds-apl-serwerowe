@@ -7,17 +7,13 @@ function browserController(req, res) {
   try {
     const relPath = req.query.path;
 
-    if (
-      relPath === '' ||
-      (relPath === '/' && !req.query.error_message) ||
-      (relPath !== undefined && relPath.includes('..'))
-    ) {
-      res.redirect('/');
+    if (!relPath || relPath.includes('..')) {
+      res.redirect('/?path=/');
       return;
     }
 
-    const relPathArray = relPath ? relPath.split('/') : [];
-    const absPath = path.join(FILES_DIR, relPath || '');
+    const relPathArray = relPath.split('/');
+    const absPath = path.join(FILES_DIR, relPath);
 
     if (!fs.existsSync(absPath)) {
       renderError(res, 'Directory not found');
@@ -44,22 +40,23 @@ function browserController(req, res) {
       }
     });
 
-    relPathArray.shift();
-    const currentPath = relPathArray.length ? '/' + relPathArray.join('/') : '';
-    const parentPath = '/' + relPathArray.slice(0, -1).join('/');
+    const currentPath = relPathArray.join('/');
+    const parentPath = relPathArray.toSpliced(relPathArray.length - 2, 1).join('/');
 
-    const pathsArray = relPathArray.map((name, index) => {
-      let relPath = '';
-      for (let i = 0; i <= index; i++) {
-        relPath += '/' + relPathArray[i];
-      }
+    const pathsArray = relPathArray
+      .map((name, index) => {
+        let relPath = '';
+        for (let i = 0; i <= index; i++) {
+          relPath += relPathArray[i] + '/';
+        }
 
-      if (name.length > 12) {
-        name = name.slice(0, 5) + '...' + name.slice(-4);
-      }
+        if (name.length > 12) {
+          name = name.slice(0, 5) + '...' + name.slice(-4);
+        }
 
-      return { name, path: relPath };
-    });
+        return { name, path: relPath };
+      })
+      .slice(1, -1);
 
     const errorsText = {
       name_required: 'Name is required',
