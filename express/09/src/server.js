@@ -41,11 +41,11 @@ const { browserController } = require('./controllers/browser');
 const { uploadController } = require('./controllers/api/upload');
 const { newFolderController, newFileController } = require('./controllers/api/new');
 const { renameFolderController } = require('./controllers/api/rename');
-const { editorGetContentController, editorSaveContentController } = require('./controllers/editor');
+const { textEditorGetContentController, textEditorSaveContentController } = require('./controllers/textEditor');
 const { imageEditorController } = require('./controllers/imageEditor');
 const { deleteFolderController, deleteFileController } = require('./controllers/api/delete');
 const { downloadFolderController, downloadFileController } = require('./controllers/api/download');
-const { rawFileController } = require('./controllers/api/rawFile');
+const { rawFileController } = require('./controllers/api/file');
 
 app.get('/', browserController);
 
@@ -59,8 +59,8 @@ app.post('/new/file', newFileController);
 
 app.post('/rename/folder', renameFolderController);
 
-app.get('/editor', editorGetContentController);
-app.post('/editor', editorSaveContentController);
+app.get('/editor/text', textEditorGetContentController);
+app.post('/editor/text', textEditorSaveContentController);
 
 app.get('/editor/image', imageEditorController);
 
@@ -70,7 +70,7 @@ app.get('/delete/file', deleteFileController);
 app.get('/download/folder', downloadFolderController);
 app.get('/download/file', downloadFileController);
 
-app.get('/raw', rawFileController);
+app.get('/file/raw', rawFileController);
 
 app.use((req, res) => {
   renderError(res, 'Endpoint not found');

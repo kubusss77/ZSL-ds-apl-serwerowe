@@ -1,5 +1,50 @@
+main {
+  display: flex;
+  justify-content: center;
+
+  margin: 1rem;
+  margin-top: 0;
+
+  padding: 1rem;
+  background-color: #1a1a1a;
+  border-radius: 1rem;
+}
+
+.filters {
+  width: 32rem;
+  background: #333;
+  text-align: center;
+  padding: 1rem;
+  border-radius: 2rem;
+
+  position: absolute;
+  z-index: 10;
+  display: none;
+}
+
+.previews {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
 .filter-preview {
-  width: 20rem;
-  height: 15rem;
-  border: 5px solid black;
+  width: 5rem;
+  height: 5rem;
+  border-radius: 1rem;
+  margin: 0.5rem;
+}
+
+.sliders {
+  display: flex;
+  justify-content: space-between;
+}
+
+.slider {
+  margin: 0.5rem;
+}
+
+.canvas-container {
+  display: flex;
+  justify-content: center;
 }

@@ -7,10 +7,10 @@ function renderBrowser(res, data, error) {
   });
 }
 
-function renderEditor(res, data) {
-  res.render('editor.hbs', {
-    title: 'Filemanager - editor',
-    style: 'editor',
+function renderTextEditor(res, data) {
+  res.render('textEditor.hbs', {
+    title: 'Filemanager - text editor',
+    style: 'textEditor',
     data,
   });
 }
@@ -34,7 +34,7 @@ function renderError(res, message, details) {
 
 module.exports = {
   renderBrowser,
-  renderEditor,
+  renderTextEditor,
   renderImageEditor,
   renderError,
 };

@@ -86,6 +86,7 @@ ul {
   display: flex;
   background-color: #099;
   color: whitesmoke;
+  border: none;
   border-radius: 0.5rem;
   padding: 0.5rem;
   cursor: pointer;

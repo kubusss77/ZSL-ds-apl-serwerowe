@@ -17,10 +17,16 @@
         <p>Rename file</p>
       </div>
     </li>
-    <li class='btn-menu' onclick="document.getElementById('save-config-dialog').showModal()">
-      <i class='fi fi-rr-gears'></i>
+    <li class='btn-menu' onclick="toggleFilters()">
+      <i class='fi fi-rr-settings-sliders'></i>
       <div class='btn-menu-text'>
-        <p>Save config</p>
+        <p>Filters</p>
+      </div>
+    </li>
+    <li class='btn-menu' onclick="crop()">
+      <i class='fi fi-rr-tool-crop'></i>
+      <div class='btn-menu-text'>
+        <p>Crop</p>
       </div>
     </li>
     <li class='btn-menu' onclick="document.getElementById('change-color-dialog').showModal()">
@@ -33,15 +39,38 @@
 </header>
 
 <main>
-  {{#each data.filters}}
-    <div class='filters'>
-      <p>{{name}}</p>
-        <div class="filter-preview" style="background-image:url('/raw?path={{../data.path}}&name={{../data.name}}');filter:{{name}}(100%)">
+  <div class='filters' id="filters-box">
+    <div class="previews">
+      {{#each data.filters}}
+        <div class="filter" onclick="applyFilter('{{name}}','100%')">
+          <div class="filter-preview" style="background-image:url('/file/raw?path={{../data.path}}&name={{../data.name}}');filter:{{name}}(100%)"></div>
+          <p>{{name}}</p>
         </div>
+      {{/each}}
+      <div class="filter" onclick="clearFilters()">
+        <div class="filter-preview" style="background-image:url('/file/raw?path={{data.path}}&name={{data.name}}');"></div>
+        <p>none</p>
+      </div>
     </div>
-  {{/each}}
-  <h2>Canvas</h2>
-  <canvas id="myCanvas" onClick="applyFilter('{{data.filters.[0].name}}(100%)')"></canvas>
+    <div class="sliders">
+      <div class="slider">
+        <p>Brightness</p>
+        <input type="range" min="0" max="200" value="100" id="slider-brightness" oninput="applyFilter('brightness', this.value + '%')">
+      </div>
+      <div class="slider">
+        <p>Contrast</p>
+        <input type="range" min="0" max="200" value="100" id="slider-contrast" oninput="applyFilter('contrast', this.value + '%')">
+      </div>
+      <div class="slider">
+        <p>Hue</p>
+        <input type="range" min="0" max="360" value="0" id="slider-hue" oninput="applyFilter('hue-rotate', this.value + 'deg')">
+      </div>
+    </div>
+    <button onclick="toggleFilters()">Close</button>
+  </div>
+  <div class="canvas-container">
+    <canvas id="canvas" data-path="{{data.path}}" data-name="{{data.name}}"></canvas>
+  </div>
 </main>
 
 <script src="/js/imageEditor.js"></script>
