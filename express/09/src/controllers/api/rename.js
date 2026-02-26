@@ -21,13 +21,13 @@ function renameFolderController(req, res) {
       return;
     }
 
-    const absOldPath = path.join(FILES_DIR, folderPath);
+    const absOldPath = path.join(FILES_DIR, req.user, folderPath);
     if (!fs.existsSync(absOldPath)) {
       renderError(res, 'Folder does not exist');
       return;
     }
 
-    const absNewPath = path.join(FILES_DIR, folderPath, '..', folderNewName);
+    const absNewPath = path.join(FILES_DIR, req.user, folderPath, '..', folderNewName);
     if (fs.existsSync(absNewPath)) {
       renderError(res, 'Folder already exists');
       return;

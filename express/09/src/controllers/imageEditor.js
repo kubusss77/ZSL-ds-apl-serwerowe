@@ -48,7 +48,7 @@ function imageEditorSaveImageController(req, res) {
         return;
       }
 
-      const targetPath = path.join(FILES_DIR, imgPath, imgName);
+      const targetPath = path.join(FILES_DIR, req.user, imgPath, imgName);
 
       fs.renameSync(blob.filepath, targetPath);
 

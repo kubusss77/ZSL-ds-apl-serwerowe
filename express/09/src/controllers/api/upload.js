@@ -19,7 +19,7 @@ function uploadController(req, res) {
       }
 
       const uploadPath = fields.path[0];
-      const targetDir = path.join(FILES_DIR, uploadPath);
+      const targetDir = path.join(FILES_DIR, req.user, uploadPath);
 
       let uploadedFiles = files.files;
 

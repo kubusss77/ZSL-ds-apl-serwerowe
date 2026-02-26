@@ -1,25 +1,45 @@
-const fs = require('fs');
-const path = require('path');
-
+const { db } = require('../../server');
+const { renderError } = require('../../renderers');
 
 function getConfigController(req, res) {
-  res.json(configJson);
+  db.findOne({ login: req.user }, (error, doc) => {
+    if (error) {
+      renderError(res, 'Database error');
+      return;
+    }
+
+    res.json(doc.config);
+  });
 }
 
 function updateConfigController(req, res) {
-  console.log(req.body);
   const fontSize = req.body.fontSize;
   const backgroundColor = req.body.backgroundColor;
 
-  if (fontSize) {
-    configJson.fontSize = fontSize;
-  }
+  db.findOne({ login: req.user }, (error, doc) => {
+    if (error) {
+      renderError(res, 'Error finding user config');
+      return;
+    }
 
-  if (backgroundColor) {
-    configJson.backgroundColor = backgroundColor;
-  }
+    const configJson = doc.config || {};
 
-  res.json(configJson);
+    if (fontSize) {
+      configJson.fontSize = fontSize;
+    }
+
+    if (backgroundColor) {
+      configJson.backgroundColor = backgroundColor;
+    }
+
+    db.update({ login: req.user }, { $set: { config: configJson } }, {}, (error) => {
+      if (error) {
+        renderError(res, 'Error updating user config');
+        return;
+      }
+      res.json(configJson);
+    });
+  });
 }
 
 module.exports = {

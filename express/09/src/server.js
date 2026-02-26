@@ -1,9 +1,12 @@
+const Datastore = require('@seald-io/nedb');
 const express = require('express');
 const { create } = require('express-handlebars');
 const fs = require('fs');
 const path = require('path');
 const { hbHelpers } = require('./hbHelpers');
 const { renderError } = require('./renderers');
+const session = require('express-session');
+require('dotenv').config();
 
 const ROOT_DIR = path.join(__dirname, '..');
 const FILES_DIR = path.join(ROOT_DIR, 'files');
@@ -17,9 +20,15 @@ if (!fs.existsSync(UPLOADS_DIR)) {
   fs.mkdirSync(UPLOADS_DIR);
 }
 
+const db = new Datastore({
+  filename: 'users.db',
+  autoload: true,
+});
+
 module.exports = {
   FILES_DIR,
   UPLOADS_DIR,
+  db,
 };
 
 const app = express();
@@ -33,6 +42,15 @@ app.use(
 );
 app.use(express.json());
 
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || 'default-secret',
+    resave: false,
+    saveUninitialized: false,
+    cookie: { maxAge: 1000 * 30 }, // 30 sekund
+  })
+);
+
 const hbs = create({
   defaultLayout: 'main.hbs',
   extname: '.hbs',
@@ -44,8 +62,12 @@ app.engine('.hbs', hbs.engine);
 app.set('view engine', '.hbs');
 app.set('views', path.join(ROOT_DIR, 'views'));
 
+const { isAuthenticated } = require('./authMiddleware');
+
 const { browserController } = require('./controllers/browser');
 const { uploadController } = require('./controllers/api/upload');
+const { registerController, registerPageController } = require('./controllers/register');
+const { loginController, loginPageController } = require('./controllers/login');
 const { newFolderController, newFileController } = require('./controllers/api/new');
 const { renameFolderController, renameFileController } = require('./controllers/api/rename');
 const { textEditorGetContentController, textEditorSaveContentController } = require('./controllers/textEditor');
@@ -55,35 +77,38 @@ const { deleteFolderController, deleteFileController } = require('./controllers/
 const { downloadFolderController, downloadFileController } = require('./controllers/api/download');
 const { rawFileController } = require('./controllers/api/file');
 
-app.get('/', browserController);
+app.get('/', isAuthenticated, browserController);
 
-app.post('/upload', uploadController);
+app.post('/upload', isAuthenticated, uploadController);
 
-/**
- * API
- */
-app.post('/new/folder', newFolderController);
-app.post('/new/file', newFileController);
+app.get('/register', registerPageController);
+app.post('/register', registerController);
 
-app.post('/rename/folder', renameFolderController);
-app.post('/rename/file', renameFileController);
+app.get('/login', loginPageController);
+app.post('/login', loginController);
 
-app.get('/editor/text', textEditorGetContentController);
-app.post('/editor/text', textEditorSaveContentController);
+app.post('/new/folder', isAuthenticated, newFolderController);
+app.post('/new/file', isAuthenticated, newFileController);
 
-app.get('/config', getConfigController);
-app.post('/config', updateConfigController);
+app.post('/rename/folder', isAuthenticated, renameFolderController);
+app.post('/rename/file', isAuthenticated, renameFileController);
 
-app.get('/editor/image', imageEditorController);
-app.post('/editor/image', imageEditorSaveImageController);
+app.get('/editor/text', isAuthenticated, textEditorGetContentController);
+app.post('/editor/text', isAuthenticated, textEditorSaveContentController);
 
-app.get('/delete/folder', deleteFolderController);
-app.get('/delete/file', deleteFileController);
+app.get('/config', isAuthenticated, getConfigController);
+app.post('/config', isAuthenticated, updateConfigController);
 
-app.get('/download/folder', downloadFolderController);
-app.get('/download/file', downloadFileController);
+app.get('/editor/image', isAuthenticated, imageEditorController);
+app.post('/editor/image', isAuthenticated, imageEditorSaveImageController);
 
-app.get('/file/raw', rawFileController);
+app.get('/delete/folder', isAuthenticated, deleteFolderController);
+app.get('/delete/file', isAuthenticated, deleteFileController);
+
+app.get('/download/folder', isAuthenticated, downloadFolderController);
+app.get('/download/file', isAuthenticated, downloadFileController);
+
+app.get('/file/raw', isAuthenticated, rawFileController);
 
 app.use((req, res) => {
   renderError(res, 'Endpoint not found');

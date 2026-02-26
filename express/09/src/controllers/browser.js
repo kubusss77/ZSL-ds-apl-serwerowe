@@ -13,7 +13,7 @@ function browserController(req, res) {
     }
 
     const relPathArray = relPath.split('/');
-    const absPath = path.join(FILES_DIR, relPath);
+    const absPath = path.join(FILES_DIR, req.user, relPath);
 
     if (!fs.existsSync(absPath)) {
       renderError(res, 'Directory not found');
