@@ -5,9 +5,8 @@
       <h1>File manager</h1>
     </a>
     <div class='path'>
-      {{#each data.pathsArray}}
-        <a href='?path={{path}}'>/{{name}}</a>
-      {{/each}}
+        <a href='/?path={{data.path}}'>{{data.path}}</a>
+        <p>{{data.name}}</p>
     </div>
   </div>
   <ul class='buttons'>
@@ -17,31 +16,89 @@
         <p>Rename file</p>
       </div>
     </li>
-    <li class='btn-menu' onclick="document.getElementById('save-config-dialog').showModal()">
-      <i class='fi fi-rr-gears'></i>
+    <li class='btn-menu' onclick="crop()">
+      <i class='fi fi-rr-tool-crop'></i>
       <div class='btn-menu-text'>
-        <p>Save config</p>
+        <p>Crop</p>
       </div>
     </li>
-    <li class='btn-menu' onclick="document.getElementById('change-color-dialog').showModal()">
-      <i class='fi fi-rr-palette'></i>
+    <li class='btn-menu' onclick="toggleFilters()">
+      <i class='fi fi-rr-settings-sliders'></i>
       <div class='btn-menu-text'>
-        <p>Change color</p>
+        <p>Filters</p>
+      </div>
+    </li>
+    <li class='btn-menu' onclick="cancelEdits()">
+      <i class='fi fi-rr-cross-circle'></i>
+      <div class='btn-menu-text'>
+        <p>Cancel</p>
+      </div>
+    </li>
+    <li class='btn-menu' onclick="saveImage()">
+      <i class='fi fi-rr-disk'></i>
+      <div class='btn-menu-text'>
+        <p>Save</p>
       </div>
     </li>
   </ul>
 </header>
 
-<main>
-  {{#each data.filters}}
-    <div class='filters'>
-      <p>{{name}}</p>
-        <div class="filter-preview" style="background-image:url('/raw?path={{../data.path}}&name={{../data.name}}');filter:{{name}}(100%)">
-        </div>
+<dialog id='rename-file-dialog'>
+  <form action='/rename/file' method='POST'>
+    <p>Rename file</p>
+    <div style='display: flex; justify-content: center; gap: 0.5rem;'>
+      <input type='hidden' name='path' value='{{data.path}}' />
+      <input type='hidden' name='oldName' value='{{data.name}}' />
+      <input name='newName' required='required' class='text-input' />
+      <button type='submit' class='btn-submit'>Rename</button>
+      <button
+        type='reset'
+        class='btn-cancel'
+        onclick="document.getElementById('rename-file-dialog').close();"
+      >Cancel</button>
     </div>
-  {{/each}}
-  <h2>Canvas</h2>
-  <canvas id="myCanvas" onClick="applyFilter('{{data.filters.[0].name}}(100%)')"></canvas>
+  </form>
+  {{#if (eq error.type 'rename')}}
+    <p class='error'>{{error.message}}</p>
+    <script>
+      document.getElementById('rename-file-dialog').showModal()
+    </script>
+  {{/if}}
+</dialog>
+
+<main>
+  <div class='filters' id="filters-box">
+    <div class="previews">
+      {{#each data.filters}}
+        <div class="filter" onclick="applyFilter('{{name}}','100%')">
+          <div class="filter-preview" style="background-image:url('/file/raw?path={{../data.path}}&name={{../data.name}}');filter:{{name}}(100%)"></div>
+          <p>{{name}}</p>
+        </div>
+      {{/each}}
+      <div class="filter" onclick="clearFilters()">
+        <div class="filter-preview" style="background-image:url('/file/raw?path={{data.path}}&name={{data.name}}');"></div>
+        <p>none</p>
+      </div>
+    </div>
+    <div class="sliders">
+      <div class="slider">
+        <p>Brightness</p>
+        <input type="range" min="0" max="200" value="100" id="slider-brightness" oninput="applyFilter('brightness', this.value + '%')">
+      </div>
+      <div class="slider">
+        <p>Contrast</p>
+        <input type="range" min="0" max="200" value="100" id="slider-contrast" oninput="applyFilter('contrast', this.value + '%')">
+      </div>
+      <div class="slider">
+        <p>Hue</p>
+        <input type="range" min="0" max="360" value="0" id="slider-hue" oninput="applyFilter('hue-rotate', this.value + 'deg')">
+      </div>
+    </div>
+    <button onclick="toggleFilters()">Close</button>
+  </div>
+  <div class="canvas-container">
+    <canvas id="canvas" data-path="{{data.path}}" data-name="{{data.name}}"></canvas>
+  </div>
 </main>
 
 <script src="/js/imageEditor.js"></script>

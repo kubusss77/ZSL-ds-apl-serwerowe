@@ -1,9 +1,9 @@
-const { renderError, renderEditor } = require('../renderers');
+const { renderError, renderTextEditor } = require('../renderers');
 const path = require('path');
 const { FILES_DIR } = require('../server');
 const fs = require('fs');
 
-function editorGetContentController(req, res) {
+function textEditorGetContentController(req, res) {
   try {
     const filePath = req.query.path;
     const fileName = req.query.name;
@@ -18,10 +18,10 @@ function editorGetContentController(req, res) {
       return;
     }
 
-    const absPath = path.join(FILES_DIR, filePath, fileName);
+    const absPath = path.join(FILES_DIR, req.user, filePath, fileName);
     const fileContent = fs.readFileSync(absPath);
 
-    renderEditor(res, {
+    renderTextEditor(res, {
       path: filePath,
       name: fileName,
       content: fileContent.toString(),
@@ -31,7 +31,7 @@ function editorGetContentController(req, res) {
   }
 }
 
-function editorSaveContentController(req, res) {
+function textEditorSaveContentController(req, res) {
   try {
     const filePath = req.body.path;
     const fileName = req.body.name;
@@ -47,10 +47,10 @@ function editorSaveContentController(req, res) {
       return;
     }
 
-    const absPath = path.join(FILES_DIR, filePath, fileName);
+    const absPath = path.join(FILES_DIR, req.user, filePath, fileName);
     fs.writeFileSync(absPath, fileContent);
 
-    renderEditor(res, {
+    renderTextEditor(res, {
       path: filePath,
       name: fileName,
       content: fileContent,
@@ -61,6 +61,6 @@ function editorSaveContentController(req, res) {
 }
 
 module.exports = {
-  editorGetContentController,
-  editorSaveContentController,
+  textEditorGetContentController,
+  textEditorSaveContentController,
 };

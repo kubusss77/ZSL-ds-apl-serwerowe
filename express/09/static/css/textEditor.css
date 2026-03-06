@@ -50,3 +50,11 @@ textarea {
   text-align: right;
   margin-right: 0.25rem;
 }
+
+.change-color-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}

@@ -44,7 +44,7 @@
     <form action="/upload" method="POST" enctype="multipart/form-data">
       <p>Upload file</p>
       <input type="hidden" name="path" value="{{data.currentPath}}">
-      <input type="file" name="imagetoupload" class="files-input" multiple required>
+      <input type="file" name="files" class="files-input" multiple required>
       <button type="submit" class="btn-submit">Upload</button>
       <button type="reset" class="btn-cancel" onclick="document.getElementById('upload-file-dialog').close()">Cancel</button>
     </form>
@@ -113,10 +113,10 @@
   {{/if}}
 </dialog>
 
-<main class="browser">
+<main class="browser" data-path="{{data.currentPath}}">
   <div style="display: flex">
     <h2>Folders</h2>
-    {{#if data.currentPath}}
+    {{#if data.parentPath}}
     <a href="?path={{ data.parentPath }}" class="back-arrow hover-white">↩</a>
     {{/if}}
   </div>
@@ -131,7 +131,7 @@
               <div class="btn-delete-folder" data-name="{{ fullName }}">
                 <i class="fi fi-rr-trash hover-white btn-delete"></i>
               </div>
-              <a href="/download/folder?path={{ ../data.currentPath }}/&name={{ fullName }}">
+              <a href="/download/folder?path={{ ../data.currentPath }}&name={{ fullName }}">
                 <i class="fi fi-rr-download hover-white btn-download"></i>
               </a>
             </div>
@@ -157,7 +157,7 @@
               <div class="btn-delete-file" data-name="{{ fullName }}">
                 <i class="fi fi-rr-trash hover-white btn-delete"></i>
               </div>
-              <a href="/download/file?path={{ ../data.currentPath }}/&name={{ fullName }}">
+              <a href="/download/file?path={{../data.currentPath}}&name={{ fullName }}">
                 <i class="fi fi-rr-download hover-white btn-download"></i>
               </a>
             </div>
@@ -173,59 +173,4 @@
   {{/if}}
 </main>
 
-<script>
-  console.log('{{ data.currentPath }}');
-
-  const textEditorExtensions = ['.txt', '.html', '.css', '.js', '.json'];
-  const imageEditorExtensions = ['.png', '.jpg', '.jpeg', '.gif', '.bmp'];
-
-  function toggleButtons() {
-    const buttons = document.getElementsByClassName('buttons')[0];
-    buttons.classList.toggle('active');
-  }
-
-  const folders = document.getElementsByClassName('folder');
-  for (let folder of folders) {
-    folder.addEventListener('click', () => {
-      window.location.href = '?path={{ data.currentPath }}/' + folder.getAttribute('data-name');
-    });
-  }
-
-  const files = document.getElementsByClassName('file');
-  for (let file of files) {
-    file.addEventListener('click', () => {
-      const name = file.getAttribute('data-name');
-      if (textEditorExtensions.some(ext => name.endsWith(ext))) {
-        window.location.href = '/editor?path={{ data.currentPath }}/&name=' + name
-      } else if (imageEditorExtensions.some(ext => name.endsWith(ext))) {
-        window.location.href = '/editor/image?path={{ data.currentPath }}/&name=' + name
-      } else {
-      window.location.href = '/editor?path={{ data.currentPath }}/&name=' + name;
-      }
-    });
-  }
-
-  const deleteFileButtons = document.getElementsByClassName('btn-delete-file');
-  for (let btn of deleteFileButtons) {
-    btn.addEventListener('click', (event) => {
-      event.stopPropagation();
-
-      const confirmation = confirm('Are you sure you want to delete this file?');
-      if (confirmation) {
-        window.location.href = `/delete/file?path={{ data.currentPath }}/&name=${btn.getAttribute('data-name')}`;
-      }
-    });
-  }
-  
-  const deleteFolderButtons = document.getElementsByClassName('btn-delete-folder');
-  for (let btn of deleteFolderButtons) {
-    btn.addEventListener('click', (event) => {
-      event.stopPropagation();
-
-      const confirmation = confirm('Are you sure you want to delete this folder? All files and subfolders will be deleted as well.');
-      if (confirmation) {
-        window.location.href = `/delete/folder?path={{ data.currentPath }}/&name=${btn.getAttribute('data-name')}`;
-      }
-    });
-  }
-</script>
+<script src='/js/browser.js'></script>

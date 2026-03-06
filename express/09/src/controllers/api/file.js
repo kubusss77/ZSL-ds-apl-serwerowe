@@ -17,7 +17,8 @@ function rawFileController(req, res) {
       return;
     }
 
-    const absPath = path.join(FILES_DIR, filePath, fileName);
+    const absPath = path.join(FILES_DIR, req.user, filePath, fileName);
+
     res.sendFile(absPath);
   } catch (error) {
     renderError(res, 'Error sending file', error.message);

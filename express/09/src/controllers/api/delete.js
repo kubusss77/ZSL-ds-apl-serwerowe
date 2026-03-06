@@ -18,10 +18,10 @@ function deleteFolderController(req, res) {
       return;
     }
 
-    const absPath = path.join(FILES_DIR, folderPath, folderName);
+    const absPath = path.join(FILES_DIR, req.user, folderPath, folderName);
     fs.rmSync(absPath, { recursive: true });
 
-    res.redirect('/?path=' + encodeURIComponent(folderPath));
+    res.redirect('/?path=' + folderPath);
   } catch (error) {
     renderError(res, 'Error removing folder', error.message);
   }
@@ -42,10 +42,10 @@ function deleteFileController(req, res) {
       return;
     }
 
-    const absPath = path.join(FILES_DIR, filePath, fileName);
+    const absPath = path.join(FILES_DIR, req.user, filePath, fileName);
     fs.unlinkSync(absPath);
 
-    res.redirect('/?path=' + encodeURIComponent(filePath));
+    res.redirect('/?path=' + filePath);
   } catch (error) {
     renderError(res, 'Error removing file', error.message);
   }

@@ -1,0 +1,87 @@
+<header>
+  <div style='display: flex;'>
+    <a href='/'>
+      <p class='h1-upper-text'>Text editor</p>
+      <h1>File manager</h1>
+    </a>
+    <div class='path'>
+      <a href='/?path={{data.path}}'>{{data.path}}</a>
+      <p>{{data.name}}</p>
+    </div>
+  </div>
+  <ul class='buttons'>
+    <li class='btn-menu' onclick='biggerFont()'>
+      <i class='fi fi-rr-plus-small'></i>
+    </li>
+    <li class='btn-menu' onclick='smallerFont()'>
+      <i class='fi fi-rr-minus-small'></i>
+    </li>
+    <li class='btn-menu' onclick="document.getElementById('rename-file-dialog').showModal()">
+      <i class='fi fi-rr-text-box-edit'></i>
+      <div class='btn-menu-text'>
+        <p>Rename file</p>
+      </div>
+    </li>
+    <li class='btn-menu' onclick="document.getElementById('change-color-dialog').showModal()">
+      <i class='fi fi-rr-palette'></i>
+      <div class='btn-menu-text'>
+        <p>Change color</p>
+      </div>
+    </li>
+    <li class='btn-menu' onclick='saveConfig()'>
+      <i class='fi fi-rr-gears'></i>
+      <div class='btn-menu-text'>
+        <p>Save config</p>
+      </div>
+    </li>
+  </ul>
+</header>
+
+<dialog id='rename-file-dialog'>
+  <form action='/rename/file' method='POST'>
+    <p>Rename file</p>
+    <div style='display: flex; justify-content: center; gap: 0.5rem;'>
+      <input type='hidden' name='path' value='{{data.path}}' />
+      <input type='hidden' name='oldName' value='{{data.name}}' />
+      <input name='newName' required='required' class='text-input' />
+      <button type='submit' class='btn-submit'>Rename</button>
+      <button
+        type='reset'
+        class='btn-cancel'
+        onclick="document.getElementById('rename-file-dialog').close();"
+      >Cancel</button>
+    </div>
+  </form>
+  {{#if (eq error.type 'rename')}}
+    <p class='error'>{{error.message}}</p>
+    <script>
+      document.getElementById('rename-file-dialog').showModal()
+    </script>
+  {{/if}}
+</dialog>
+
+<dialog id='change-color-dialog'>
+  <p>Change editor background color</p>
+  <div class='change-color-container'>
+    <input type='color' id='input-color' />
+    <button
+      type='reset'
+      class='btn-cancel'
+      onclick="document.getElementById('change-color-dialog').close();"
+    >Close</button>
+  </div>
+</dialog>
+
+<main>
+  <form action='/editor/text' method='POST'>
+    <input type='hidden' name='path' value='{{data.path}}' />
+    <input type='hidden' name='name' value='{{data.name}}' />
+    <div class='editor'>
+      <div class='line-numbers'>ds</div>
+      <textarea name='content' id='file-content' placeholder='Empty file'>{{data.content}}</textarea>
+    </div>
+    <button type='submit' class='btn-submit'>Save</button>
+  </form>
+</main>
+
+<script src='/js/textEditor.js'></script>
