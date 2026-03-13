@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button id="btn">Klik</button>
+    <script>
+      function click() {
+        fetch('/', {
+          method: 'POST',
+          body: 'To są dane z przeglądarki!', // Treść przesyłana do serwera
+        })
+          .then((res) => res.text()) // Czekamy na odpowiedź tekstową
+          .then((txt) => {
+            console.log(txt);
+            alert(txt);
+          }); // Wyświetlamy to, co odesłał serwer
+      }
+
+      document.getElementById('btn').addEventListener('click', click);
+    </script>
+  </body>
+</html>
