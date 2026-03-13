@@ -32,3 +32,8 @@ input {
 .message-error {
   color: #f44336;
 }
+
+p {
+  margin-top: 1rem;
+  color: lightgray;
+}
