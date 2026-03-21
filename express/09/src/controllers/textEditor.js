@@ -18,7 +18,7 @@ function textEditorGetContentController(req, res) {
       return;
     }
 
-    const absPath = path.join(FILES_DIR, req.user, filePath, fileName);
+    const absPath = path.join(FILES_DIR, req.session.username, filePath, fileName);
     const fileContent = fs.readFileSync(absPath);
 
     renderTextEditor(res, {
@@ -47,7 +47,7 @@ function textEditorSaveContentController(req, res) {
       return;
     }
 
-    const absPath = path.join(FILES_DIR, req.user, filePath, fileName);
+    const absPath = path.join(FILES_DIR, req.session.username, filePath, fileName);
     fs.writeFileSync(absPath, fileContent);
 
     renderTextEditor(res, {

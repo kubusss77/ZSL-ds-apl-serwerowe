@@ -2,7 +2,7 @@ const { db } = require('../../server');
 const { renderError } = require('../../renderers');
 
 function getConfigController(req, res) {
-  db.findOne({ login: req.user }, (error, doc) => {
+  db.findOne({ login: req.session.username }, (error, doc) => {
     if (error) {
       renderError(res, 'Database error');
       return;
@@ -16,7 +16,7 @@ function updateConfigController(req, res) {
   const fontSize = req.body.fontSize;
   const backgroundColor = req.body.backgroundColor;
 
-  db.findOne({ login: req.user }, (error, doc) => {
+  db.findOne({ login: req.session.username }, (error, doc) => {
     if (error) {
       renderError(res, 'Error finding user config');
       return;
@@ -32,7 +32,7 @@ function updateConfigController(req, res) {
       configJson.backgroundColor = backgroundColor;
     }
 
-    db.update({ login: req.user }, { $set: { config: configJson } }, {}, (error) => {
+    db.update({ login: req.session.username }, { $set: { config: configJson } }, {}, (error) => {
       if (error) {
         renderError(res, 'Error updating user config');
         return;

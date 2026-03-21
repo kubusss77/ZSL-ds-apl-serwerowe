@@ -117,6 +117,10 @@ ul {
   height: 1.5rem;
 }
 
+.btn-logout {
+  background-color: #099;
+}
+
 @media (min-width: 600px) {
   .buttons li:last-child .btn-menu-text {
     grid-template-columns: 1fr;
@@ -206,4 +210,8 @@ dialog .files-input:focus {
 dialog .error {
   margin-top: 1rem;
   margin-bottom: 0;
+}
+
+.dragover {
+  box-shadow: #0bb 0px 0px 60px inset;
 }

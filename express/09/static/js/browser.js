@@ -67,13 +67,19 @@ function deleteFolder(event, name) {
 }
 
 /**
- * Dropover
+ * Drag and drop
  */
 
 const dropZone = document.querySelector('html');
 
 dropZone.addEventListener('dragover', (event) => {
   event.preventDefault();
+
+  dropZone.classList.add('dragover');
+});
+
+dropZone.addEventListener('dragleave', () => {
+  dropZone.classList.remove('dragover');
 });
 
 dropZone.addEventListener('drop', (event) => {

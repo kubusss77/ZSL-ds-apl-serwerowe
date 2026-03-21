@@ -18,7 +18,7 @@ function deleteFolderController(req, res) {
       return;
     }
 
-    const absPath = path.join(FILES_DIR, req.user, folderPath, folderName);
+    const absPath = path.join(FILES_DIR, req.session.username, folderPath, folderName);
     fs.rmSync(absPath, { recursive: true });
 
     res.redirect('/?path=' + folderPath);
@@ -42,7 +42,7 @@ function deleteFileController(req, res) {
       return;
     }
 
-    const absPath = path.join(FILES_DIR, req.user, filePath, fileName);
+    const absPath = path.join(FILES_DIR, req.session.username, filePath, fileName);
     fs.unlinkSync(absPath);
 
     res.redirect('/?path=' + filePath);

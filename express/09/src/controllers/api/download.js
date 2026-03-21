@@ -21,7 +21,7 @@ function downloadFolderController(req, res) {
 
     res.attachment(folderName + '.zip');
 
-    const absPath = path.join(FILES_DIR, req.user, folderPath, folderName);
+    const absPath = path.join(FILES_DIR, req.session.username, folderPath, folderName);
 
     const archive = archiver('zip', {
       zlib: { level: 9 },
@@ -55,7 +55,7 @@ function downloadFileController(req, res) {
       return;
     }
 
-    const absPath = path.join(FILES_DIR, req.user, filePath, fileName);
+    const absPath = path.join(FILES_DIR, req.session.username, filePath, fileName);
     if (!fs.existsSync(absPath)) {
       renderError(res, 'File not found', '');
       return;

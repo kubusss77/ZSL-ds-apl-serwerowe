@@ -47,7 +47,7 @@ app.use(
     secret: process.env.SESSION_SECRET || 'default-secret',
     resave: false,
     saveUninitialized: false,
-    cookie: { maxAge: 1000 * 30 }, // 30 sekund
+    cookie: { maxAge: 1000 * 60 * 30 }, // 30 minut
   })
 );
 
@@ -64,10 +64,10 @@ app.set('views', path.join(ROOT_DIR, 'views'));
 
 const { isAuthenticated } = require('./authMiddleware');
 
-const { browserController } = require('./controllers/browser');
-const { uploadController } = require('./controllers/api/upload');
 const { registerController, registerPageController } = require('./controllers/register');
 const { loginController, loginPageController } = require('./controllers/login');
+const { browserController } = require('./controllers/browser');
+const { uploadController } = require('./controllers/api/upload');
 const { newFolderController, newFileController } = require('./controllers/api/new');
 const { renameFolderController, renameFileController } = require('./controllers/api/rename');
 const { textEditorGetContentController, textEditorSaveContentController } = require('./controllers/textEditor');
@@ -76,10 +76,7 @@ const { imageEditorController, imageEditorSaveImageController } = require('./con
 const { deleteFolderController, deleteFileController } = require('./controllers/api/delete');
 const { downloadFolderController, downloadFileController } = require('./controllers/api/download');
 const { rawFileController } = require('./controllers/api/file');
-
-app.get('/', isAuthenticated, browserController);
-
-app.post('/upload', isAuthenticated, uploadController);
+const { logoutController } = require('./controllers/api/logout');
 
 app.get('/register', registerPageController);
 app.post('/register', registerController);
@@ -87,28 +84,36 @@ app.post('/register', registerController);
 app.get('/login', loginPageController);
 app.post('/login', loginController);
 
-app.post('/new/folder', isAuthenticated, newFolderController);
-app.post('/new/file', isAuthenticated, newFileController);
+app.use(isAuthenticated)
 
-app.post('/rename/folder', isAuthenticated, renameFolderController);
-app.post('/rename/file', isAuthenticated, renameFileController);
+app.get('/', browserController);
 
-app.get('/editor/text', isAuthenticated, textEditorGetContentController);
-app.post('/editor/text', isAuthenticated, textEditorSaveContentController);
+app.post('/upload', uploadController);
 
-app.get('/config', isAuthenticated, getConfigController);
-app.post('/config', isAuthenticated, updateConfigController);
+app.post('/new/folder', newFolderController);
+app.post('/new/file', newFileController);
 
-app.get('/editor/image', isAuthenticated, imageEditorController);
-app.post('/editor/image', isAuthenticated, imageEditorSaveImageController);
+app.post('/rename/folder', renameFolderController);
+app.post('/rename/file', renameFileController);
 
-app.get('/delete/folder', isAuthenticated, deleteFolderController);
-app.get('/delete/file', isAuthenticated, deleteFileController);
+app.get('/editor/text',  textEditorGetContentController);
+app.post('/editor/text', textEditorSaveContentController);
 
-app.get('/download/folder', isAuthenticated, downloadFolderController);
-app.get('/download/file', isAuthenticated, downloadFileController);
+app.get('/config', getConfigController);
+app.post('/config', updateConfigController);
 
-app.get('/file/raw', isAuthenticated, rawFileController);
+app.get('/editor/image', imageEditorController);
+app.post('/editor/image', imageEditorSaveImageController);
+
+app.get('/delete/folder', deleteFolderController);
+app.get('/delete/file', deleteFileController);
+
+app.get('/download/folder', downloadFolderController);
+app.get('/download/file', downloadFileController);
+
+app.get('/file/raw', rawFileController);
+
+app.get('/logout', logoutController);
 
 app.use((req, res) => {
   renderError(res, 'Endpoint not found');

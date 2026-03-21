@@ -55,9 +55,11 @@ function saveConfig() {
   })
     .then((response) => response.json())
     .then((data) => {
+      alert('Config saved successfully!');
       console.log('Config saved:', data);
     })
     .catch((error) => {
+      alert('Error saving config: ' + error.message);
       console.error('Error saving config:', error);
     });
 }

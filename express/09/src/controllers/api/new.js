@@ -30,7 +30,7 @@ function newFolderController(req, res) {
       return;
     }
 
-    const absPath = path.join(FILES_DIR, req.user, folderPath, folderName);
+    const absPath = path.join(FILES_DIR, req.session.username, folderPath, folderName);
     if (fs.existsSync(absPath)) {
       res.redirect('/?path=' + folderPath + '&error_type=folder&error_message=folder_exists');
       return;
@@ -76,7 +76,7 @@ function newFileController(req, res) {
       return;
     }
 
-    const absPath = path.join(FILES_DIR, req.user, filePath, fileName + fileExtension);
+    const absPath = path.join(FILES_DIR, req.session.username, filePath, fileName + fileExtension);
     if (fs.existsSync(absPath)) {
       res.redirect('/?path=' + filePath + '&error_type=file&error_message=file_exists');
       return;

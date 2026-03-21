@@ -16,13 +16,13 @@ function loginController(req, res) {
       return;
     }
     if (!user) {
-      renderLogin(res, 'User not found', 'error');
+      renderLogin(res, 'Incorrect login or password', 'error');
       return;
     }
 
     const passwordMatch = bcrypt.compareSync(password, user.password);
     if (!passwordMatch) {
-      renderLogin(res, 'Incorrect password', 'error');
+      renderLogin(res, 'Incorrect login or password', 'error');
       return;
     }
 

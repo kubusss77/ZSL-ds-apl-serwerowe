@@ -19,6 +19,12 @@
       </div>
     </li>
     {{/if}}
+    <li class="btn-menu" onclick="document.getElementById('upload-file-dialog').showModal()">
+      <i class="fi fi-rr-cloud-upload-alt"></i>
+      <div class="btn-menu-text">
+        <p>Upload</p>
+      </div>
+    </li>
     <li class="btn-menu" onclick="document.getElementById('new-folder-dialog').showModal()">
       <i class="fi fi-rr-add-folder"></i>
       <div class="btn-menu-text">
@@ -31,10 +37,10 @@
           <p>New file</p>
         </div>
     </li>
-    <li class="btn-menu" onclick="document.getElementById('upload-file-dialog').showModal()">
-      <i class="fi fi-rr-cloud-upload-alt"></i>
+    <li class="btn-menu" style="background-color: #0bb;" onclick="document.location.href='/logout'">
+      <i class="fi fi-rr-user-logout"></i>
       <div class="btn-menu-text">
-        <p>Upload</p>
+        <p>Logout</p>
       </div>
     </li>
   </ul>

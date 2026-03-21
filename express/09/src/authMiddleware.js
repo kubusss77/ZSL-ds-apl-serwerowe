@@ -2,6 +2,7 @@ const { db } = require('./server');
 
 function isAuthenticated(req, res, next) {
   const userId = req.session.userId;
+  console.log('Checking authentication for user ID:', userId);
   if (!userId) {
     console.log('No user ID in session');
     res.redirect('/login?error=not_authenticated');
@@ -19,7 +20,7 @@ function isAuthenticated(req, res, next) {
       res.redirect('/login');
       return;
     }
-    req.user = user.login;
+    req.session.username = user.login;
     next();
   });
 }

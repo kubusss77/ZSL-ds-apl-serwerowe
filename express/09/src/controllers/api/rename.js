@@ -16,18 +16,18 @@ function renameFolderController(req, res) {
       return;
     }
 
-    if (folderPath.includes('/../') || folderNewName.includes('/../')) {
+    if (folderPath.includes('..') || folderNewName.includes('..')) {
       renderError(res, 'Forbidden characters in folder path and/or name', '');
       return;
     }
 
-    const absOldPath = path.join(FILES_DIR, req.user, folderPath);
+    const absOldPath = path.join(FILES_DIR, req.session.username, folderPath);
     if (!fs.existsSync(absOldPath)) {
       renderError(res, 'Folder does not exist');
       return;
     }
 
-    const absNewPath = path.join(FILES_DIR, req.user, folderPath, '..', folderNewName);
+    const absNewPath = path.join(FILES_DIR, req.session.username, folderPath, '..', folderNewName);
     if (fs.existsSync(absNewPath)) {
       renderError(res, 'Folder already exists');
       return;
@@ -35,7 +35,7 @@ function renameFolderController(req, res) {
 
     fs.renameSync(absOldPath, absNewPath);
 
-    const newPath = parentPath === '/' ? '/' + folderNewName : parentPath + '/' + folderNewName;
+    const newPath = parentPath === '/' ? '/' + folderNewName : parentPath + folderNewName + '/';
 
     res.redirect('/?path=' + newPath);
   } catch (error) {
@@ -54,18 +54,18 @@ function renameFileController(req, res) {
       return;
     }
 
-    if (filePath.includes('/../') || fileOldName.includes('/../') || fileNewName.includes('/../')) {
+    if (filePath.includes('..') || fileOldName.includes('..') || fileNewName.includes('..')) {
       renderError(res, 'Forbidden characters in file path and/or name', '');
       return;
     }
 
-    const absOldPath = path.join(FILES_DIR, filePath, fileOldName);
+    const absOldPath = path.join(FILES_DIR, req.session.username, filePath, fileOldName);
     if (!fs.existsSync(absOldPath)) {
       renderError(res, 'File does not exist');
       return;
     }
 
-    const absNewPath = path.join(FILES_DIR, filePath, fileNewName);
+    const absNewPath = path.join(FILES_DIR, req.session.username, filePath, fileNewName);
     if (fs.existsSync(absNewPath)) {
       renderError(res, 'File already exists');
       return;
