@@ -69,6 +69,7 @@ function browserController(req, res) {
     renderBrowser(
       res,
       {
+        username: req.session.username,
         currentPath,
         pathsArray,
         parentPath,

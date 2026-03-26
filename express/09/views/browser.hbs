@@ -5,6 +5,7 @@
       <h1>File manager</h1>
     </a>
     <div class="path">
+      <a href="?path=/"><p class="username">{{ data.username }}</p></a>
       {{#each data.pathsArray}}
         <a href="?path={{ path }}">/{{ name }}</a>
       {{/each}}

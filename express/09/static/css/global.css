@@ -52,6 +52,15 @@ h1 {
   max-width: 20vw;
 }
 
+.username {
+  color: #ccc;
+  font-weight: bold;
+  font-size: 1.128rem;
+  margin-top: -0.15rem;
+  text-transform: uppercase;
+  margin-right: 0.15rem;
+}
+
 @media (max-width: 800px) {
   .path {
     max-width: 50vw;
