@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form>
+      <input id="rekrut" />
+      <input id="klasa" />
+      <input type="number" id="sila" />
+      <button onclick="send()">Wytślij</button>
+    </form>
+    <pre id="pre"></pre>
+  </body>
+</html>
+
+<script>
+  async function send() {
+    const rekrut = document.getElementById('rekrut').value;
+    const klasa = document.getElementById('klasa').value;
+    const sila = parseInt(document.getElementById('sila').value);
+    console.log(rekrut, klasa, sila);
+    const dane = await fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ rekrut, klasa, sila }),
+    });
+
+    const json = JSON.parse(await dane.text());
+
+    document.getElementById('pre').textContent = JSON.stringify(json, null, 5);
+  }
+</script>

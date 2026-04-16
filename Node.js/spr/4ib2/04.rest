@@ -1,0 +1,14 @@
+
+### ADMIN
+GET http://localhost:3000/index04
+x-api-key: ADMIN123
+
+### USER
+GET http://localhost:3000/index04
+x-api-key: USER456
+
+### GUEST
+GET http://localhost:3000/index04
+
+### Zła ścieżka
+GET http://localhost:3000/invalid-path

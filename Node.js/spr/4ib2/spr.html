@@ -1,0 +1,939 @@
+<!doctype html>
+<html
+  xmlns="http://www.w3.org/1999/xhtml"
+  style="background-color: rgb(34, 37, 42); color: rgb(171, 178, 191); width: 100%"
+>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <title>Sprawdzian NodeJS (i5) - ver 1 - SPEC.PL.HOSTINGASP.PL</title>
+    <link rel="shortcut icon" href="https://spec.pl.hostingasp.pl/gfx/spec.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com/" />
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+    <link href="Sprawdzian%20NodeJS%20(i5)%20-%20ver%201%20-%20SPEC.PL.HOSTINGASP.PL_files/css2.css" rel="stylesheet" />
+    <link
+      rel="Stylesheet"
+      href="Sprawdzian%20NodeJS%20(i5)%20-%20ver%201%20-%20SPEC.PL.HOSTINGASP.PL_files/dialogs.css"
+      type="text/css"
+    />
+
+    <style>
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+
+        height: 100vh;
+        background: #444;
+        color: transparent;
+        height: 100%;
+      }
+
+      .headerKw1 {
+        width: 20px;
+        height: 20px;
+        background: #ed2655;
+        display: inline-block;
+        border-radius: 50px;
+      }
+
+      .headerKw2 {
+        width: 20px;
+        height: 20px;
+        background: #339bff;
+        display: inline-block;
+        border-radius: 50px;
+      }
+
+      a {
+        color: transparent;
+        text-decoration: none;
+      }
+
+      .newsDescriptionInner a:hover,
+      #seriesPanel a:hover {
+        filter: invert(50%);
+      }
+
+      @font-face {
+        font-family: 'seuil';
+        src: url('fonts/Segoe UI Light.ttf');
+      }
+
+      @font-face {
+        font-family: 'seui';
+        src: url('fonts/Segoe UI.ttf');
+      }
+
+      @font-face {
+        font-family: 'seuib';
+        src: url('fonts/Segoe UI Bold.ttf');
+      }
+
+      @font-face {
+        font-family: 'couriercode';
+        src: url('fonts/Courier Prime Code.ttf');
+      }
+
+      #scrollToTopBtn {
+        display: none;
+        position: fixed;
+        bottom: 20px;
+        right: 30px;
+        z-index: 99;
+        border: none;
+        outline: none;
+        background-color: #555;
+        color: white;
+        cursor: pointer;
+        padding: 15px;
+        border-radius: 100px;
+        font-size: 28px;
+        font-family: interb;
+        transition: background-color 0.3s ease-in-out;
+      }
+
+      #scrollToTopBtn:hover {
+        background-color: #f00;
+      }
+
+      #mainLessonContainer {
+        display: flex;
+        flex-direction: row;
+        box-sizing: border-box;
+        height: 100%;
+      }
+
+      #mainLessonContainer > div {
+        min-width: 0;
+      }
+
+      @font-face {
+        font-family: 'interl';
+        src: url('fonts/metropolis/Metropolis-Light.otf');
+      }
+
+      @font-face {
+        font-family: 'inter';
+        src: url('fonts/metropolis/Metropolis-Regular.otf');
+      }
+
+      @font-face {
+        font-family: 'interb';
+        src: url('fonts/metropolis/Metropolis-Bold.otf');
+      }
+
+      @media screen and (orientation: landscape) {
+      }
+
+      .copy {
+        user-select: none;
+      }
+
+      .newsTitle {
+        margin-bottom: 20px;
+        margin-top: 28px;
+        font-family: interb;
+        color: #444444;
+        font-size: 40px;
+        border-bottom: solid 1px #339bff;
+        display: flex;
+        align-items: center;
+        line-height: 48px;
+      }
+
+      .newsDate {
+        margin-top: 0px;
+        font-family: 'seuil';
+        color: #888888;
+        font-weight: bold;
+        font-size: 16px;
+        margin-bottom: 20px;
+        margin-top: 20px;
+      }
+
+      .newsSeries {
+        font-family: inter;
+        color: blue;
+        font-size: 12px;
+      }
+
+      .newsContent {
+        font-family: inter;
+        font-size: 18px;
+        border-right: solid 1px #a1a1a1;
+        vertical-align: top;
+        line-height: 30px;
+        padding-top: 0;
+      }
+
+      .newsDescription {
+        font-family: inter;
+        font-size: 20px;
+        padding: 40px;
+        padding-top: 20px;
+        line-height: 20px;
+        vertical-align: top;
+        height: 100%;
+        position: relative;
+        top: 10px;
+        left: 0;
+      }
+
+      .newsDescriptionInner {
+        vertical-align: top;
+        line-height: 24px;
+      }
+
+      #dividerDiv {
+        height: 100%;
+        display: table-cell;
+      }
+
+      #dividerDiv:hover {
+        cursor: w-resize;
+      }
+
+      .newsFooter {
+        font-family: inter;
+        text-align: center;
+        border-top: solid 1px #339bff;
+        font-size: 14px;
+        color: #808080;
+        padding: 40px 20px 40px 20px;
+        line-height: 24px;
+        margin-top: 10px;
+      }
+
+      .confirmBT {
+        margin: 5px;
+        width: 120px;
+        height: 40px;
+        font-weight: bold;
+      }
+
+      #timeDiv {
+        z-index: 50;
+        font-family: seui, Consolas, Calibri, Arial;
+        color: #339bff;
+        font-size: 50px;
+      }
+
+      #downUpImg {
+        position: absolute;
+        left: 2px;
+        top: 2px;
+        font-size: 12px;
+        color: #666666;
+      }
+
+      ::selection {
+        background: #000000;
+        color: #ffffff;
+      }
+
+      ::-moz-selection {
+        background: #000000;
+        color: #ffffff;
+      }
+
+      select:focus {
+        outline: none;
+      }
+
+      #helper {
+        width: 100vw;
+        height: 100vh;
+        position: absolute;
+        background: red;
+      }
+
+      input[type='radio'] {
+        display: none;
+      }
+
+      input[type='radio'] + label {
+        -webkit-transition: all 100ms ease;
+        transition: all 100ms ease;
+        font-size: 14px;
+        cursor: pointer;
+        border-radius: 50px;
+        margin: 6px;
+        padding: 0.3rem 1.5rem;
+        display: inline-block;
+        -moz-user-select: -moz-none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        font-weight: bold;
+      }
+
+      input[type='radio']:checked + label {
+        -webkit-transition: all 100ms ease;
+        transition: all 100ms ease;
+      }
+
+      #themeSelectCont {
+        background: #f4f4f4;
+        border-radius: 0 0 10px 10px;
+        padding: 10px;
+        display: none;
+        width: 470px;
+        position: absolute;
+        z-index: 100;
+      }
+
+      #themesVisible {
+        font-size: 14px;
+        font-weight: bold;
+        border: none;
+        padding: 7px 16px 7px 16px;
+        box-sizing: border-box;
+        cursor: pointer;
+        font-family: inter, Consolas;
+        display: inline-block;
+        text-align: center;
+        border-radius: 10px 0 0 0;
+        height: 32px;
+        background: rgb(150, 21, 116);
+        color: rgb(232, 232, 232);
+      }
+
+      #saveThemeBt {
+        font-size: 14px;
+        font-weight: bold;
+        border: none;
+        padding: 8px 16px 8px 16px;
+        box-sizing: border-box;
+        cursor: pointer;
+        font-family: inter, Consolas;
+        display: inline-block;
+        text-align: center;
+        height: 32px;
+        background: rgb(150, 21, 116);
+        color: rgb(232, 232, 232);
+      }
+
+      #specLink {
+        font-size: 14px;
+        font-weight: bold;
+        border: none;
+        padding: 8px 16px 8px 16px;
+        box-sizing: border-box;
+        cursor: pointer;
+        font-family: inter, Consolas;
+        display: inline-block;
+        text-align: center;
+        border-radius: 0 50px 50px 0;
+        height: 32px;
+        width: 150px;
+        background: rgb(150, 21, 116);
+        color: rgb(232, 232, 232);
+        line-height: 18px;
+      }
+
+      #specLink:hover {
+        color: white;
+      }
+
+      #showRightPanel {
+        font-size: 14px;
+        font-weight: bold;
+        border: none;
+        border-radius: 50px 0 0 50px;
+        padding: 8px 16px 8px 16px;
+        box-sizing: border-box;
+        cursor: pointer;
+        font-family: inter, Consolas;
+        display: inline-block;
+        text-align: center;
+        height: 32px;
+        width: 150px;
+        background: rgb(150, 21, 116);
+        color: rgb(232, 232, 232);
+        line-height: 18px;
+      }
+
+      #buttonsCont {
+        width: 496px;
+        display: flex;
+        flex-direction: row;
+      }
+
+      .newsSeries {
+        line-height: 24px;
+      }
+    </style>
+    <script src="Sprawdzian%20NodeJS%20(i5)%20-%20ver%201%20-%20SPEC.PL.HOSTINGASP.PL_files/jquery-3.1.0.min.js"></script>
+    <script src="Sprawdzian%20NodeJS%20(i5)%20-%20ver%201%20-%20SPEC.PL.HOSTINGASP.PL_files/highlight.js"></script>
+  </head>
+  <body id="body" style="background-color: rgb(34, 37, 42); color: rgb(171, 178, 191); width: 100%">
+    <form
+      method="post"
+      action="./ShowLesson.aspx?zEDFkMSfrDxYGTUQAhCDqAiJMZuRK1Y3WXSCbSDyJI2OyMUwkUZ1oGGIh0lxIsAJXSiiKHKKIzV6atP4Hjlp1ljB6ZSJqhmdktmP=2bbf1c5f-a262-499d-9486-a81e77f15c57"
+      id="form1"
+      style="background-color: rgb(34, 37, 42); color: rgb(171, 178, 191); width: 100%"
+    >
+      <div class="aspNetHidden">
+        <input
+          type="hidden"
+          name="__VIEWSTATE"
+          id="__VIEWSTATE"
+          value="/wEPDwUJNzA3MzMwNDAwD2QWAgIDD2QWAgIBD2QWCAIBDw8WAh4ISW1hZ2VVcmwFGS9nZngvc3ByYXdkemlhbi1yb3VuZC5wbmdkZAIDDxYCHgRUZXh0BR8gU3ByYXdkemlhbiBOb2RlSlMgKGk1KSAtIHZlciAxZAILDxYCHwEFkTA8ZGl2PjxkaXY+PGk+PHU+T3BpczwvdT48L2k+PC9kaXY+PGRpdj48aT48dT48YnI+PC91PjwvaT48L2Rpdj48ZGl2PjxpPmEpDQogY3p0ZXJ5IHphZGFuaWEsIGN6dGVyeSBwbGlraSBzZXJ3ZXJhIChqcyk8L2k+PC9kaXY+PGRpdj48aT5iKSBtb8W8bmEga29yenlzdGHEhyB6IGRvd29sbmVqIG9maWNqYWxuZWogZG9rdW1lbnRhY2ppIGRvIG5vZGVqcywgaHRtbCwganM8L2k+PC9kaXY+PGRpdj48aT5jKSBuaWUgb3R3aWVyYW15IMW8YWRueWNoIGlubnljaCBzd29pY2ggxId3aWN6ZcWEPC9pPjwvZGl2PjxkaXY+PGk+ZCkgcGlzemVteSBuYSBtb2ljaCBrb21wdXRlcmFjaDxicj48L2k+PC9kaXY+PGRpdj48aT5lKSBwcnplZCBrb8WEY2VtIGxla2NqaSBwb2RhbSBtaWVqc2NlIGRvIHNrb3Bpb3dhbmlhIHNwYWtvd2FuZWdvIGZvbGRlcnU8L2k+PC9kaXY+PGRpdj48aT48YnI+PC9pPjwvZGl2PjxkaXY+PGk+LyotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tPC9pPjwvZGl2PjxkaXY+PGk+PGJyPjwvaT48L2Rpdj48ZGl2PjxpPlcgemFkYW5pYWNoIDMgaSA0IGJyYWsgc3Ryb255IGh0bWwsIGplc3QgdHlsa28gc2Vyd2VyITwvaT48L2Rpdj48YnI+PC9kaXY+PGRpdj48aT4vKi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS08L2k+PC9kaXY+PGRpdj48aT48YnI+PC9pPjwvZGl2PjxkaXY+PGk+PGJyPjwvaT48L2Rpdj48ZGl2Pjx1PjxpPlphZGFuaWUgMcKgPC9pPjwvdT48L2Rpdj48aT48YnI+VyBmb2xkZXJ6ZSAic3RhdGljIiB1dHfDs3J6IHN0cm9uxJkgaW5kZXgwMS5odG1sIHphd2llcmFqxIVjxIUgdHJ6eSBsaW5raSAoYSBocmVmKSB6IHBhcmFtZXRyYW1pOiBwb3N0YWMgb3JheiBsdmwuPGJyPjxicj5PY2VuaWFuZSBkemlhxYJhbmlhOsKgPGJyPjxicj4xLiBbMSBwa3RdIC0gcG8gdXJ1Y2hvbWllbml1IGFkcmVzdSAvaW5kZXgwMSBzZXJ3ZXIgcG9wcmF3bmllIHd5xZt3aWV0bGEgcGxpayBpbmRleDAxLmh0bWw8YnI+PGJyPjIuIFsxIHBrdF0gLSBwbyBrbGlrbmnEmWNpdSB3IGxpbmsgKG5wLiAvd3lib3I/cG9zdGFjPW1hZyZhbXA7bHZsPTEwKSwgc2Vyd2VyIHd5xZt3aWV0bGEgc3Ryb27EmSB6IG9kZWJyYW7EhSBuYXp3xIUsIHBvemlvbWVtwqA8YnI+PGJyPjMuIFsxIHBrdF0gLSBvcmF6IHBhc3VqxIVjeW0gemRqxJljaWVtICguanBnKSBwb2JyYW55bSB6IHNlcndlcmE8YnI+PGJyPjwvaT48ZGl2PjxpPm9icmF6a2k6PC9pPjwvZGl2PjxkaXY+PGk+PGJyPjwvaT48L2Rpdj48ZGl2PjxpPldvam93bmlrOiB1bnNwbGFzaC5jb20vcy9waG90b3Mvd2FycmlvcjwvaT48L2Rpdj48aT5NYWcgLyBDemFyb2R6aWVqOiB1bnNwbGFzaC5jb20vcy9waG90b3Mvd2l6YXJkPGJyPsWBdWN6bmlrOiB1bnNwbGFzaC5jb20vcy9waG90b3MvYXJjaGVyPGJyPjxicj48dT5aYWRhbmllIDI8L3U+PGJyPjxicj5XIGZvbGRlcnplICJzdGF0aWMiIHV0d8Ozcnogc3Ryb27EmSBpbmRleDAyLmh0bWwsIGt0w7NyYSBwcnplc3nFgmEgZGFuZSByZWtydXRhIGkgd3nFm3dpZXRsYSBvZHBvd2llZMW6IEpTT04geiBzZXJ3ZXJhLjxicj48YnI+T2NlbmlhbmUgZHppYcWCYW5pYTrCoDxicj48YnI+MS4gWzFwa3RdIC0gZm9ybXVsYXJ6IHd5c3nFgmEgZGFuZSBQT1NUIChmZXRjaCk6IHsicmVrcnV0IjogIi4uLiIsICJrbGFzYSI6ICIuLi4iLCAic2lsYSI6IDEwfSAtIHdpZGHEhyBjb25zb2xlLmxvZyBuYSBzZXJ3ZXJ6ZTxicj48YnI+Mi7CoCBbMXBrdF0gLSBzZXJ3ZXIgZG9waXN1amUgZGFuZSBkbyBwbGlrdSwgYSBuYXN0xJlwbmllIG9kc3nFgmEgZGFuZSBvIHN0cnVrdHVyemU6PGJyPjwvaT48ZGl2PjxpPjxicj48L2k+PC9kaXY+PGRpdj48aT57wqA8L2k+PC9kaXY+PGk+wqAgImFybWlhIjogWyJyZWtydXQxIiwgInJla3J1dDIiXSzCoDxicj7CoCAic3RhdHlzdHlraSI6IHsgImxpY3piYU9zb2IiOiBYLCAic3JlZG5pYVNpbGEiOiBZIH3CoDxicj59PGJyPjxicj5XeW5payBtYSB6b3N0YcSHIHd5xZt3aWV0bG9ueSBuYSBzdHJvbmllIHcgdGFndSAmbHQ7cHJlJmd0O8KgPGJyPjxicj48dT5aYWRhbmllIDM6wqA8L3U+PGJyPjxicj5DZWw6IFN0d29yemVuaWUgZW5kcG9pbnR1IEFQSSwga3TDs3J5IHBvYmllcmEgZGFuZSB6IHRyemVjaCByw7PFvG55Y2ggc3lzdGVtw7N3IGplZG5vY3plxZtuaWUuwqA8YnI+PGJyPjwvaT48aT4xLiBbMSBwa3RdIExvZ2lrYSBwcm9taXNlczo8YnI+PC9pPjxkaXY+PGJyPjwvZGl2PjxkaXY+PGk+LcKgPC9pPjxpPmZ1bmtjamHCoDwvaT48aT5zcHJhd2R6U3lzdGVtKCkgamVzdCBuYXBpc2FuYSBwb3phIGNyZWF0ZVNlcnZlcigpPC9pPjwvZGl2PjxpPi0gZnVua2NqYSBzcHJhd2R6U3lzdGVtKCkgbXVzaSB6d3JhY2HEhyAibmV3IFByb21pc2UiPGJyPi0gTXVzaSBzeW11bG93YcSHIG9ww7PFum5pZW5pZSAoc2V0VGltZW91dCkgdyB6YWtyZXNpZSBvZCA1MDBtcyBkbyAzMDAwbXM8YnI+LSBXYXJ1bmVrIGLFgsSZZHU6IEplxZtsaSB3eWxvc293YW55IGN6YXMgb2Rwb3dpZWR6aSBwcnpla3JvY3p5IDI1MDBtcywgb2JpZXRuaWNhIG11c2kgem9zdGHEhyBvZHJ6dWNvbmEgKHJlamVjdCkgeiBrb211bmlrYXRlbTogIlN5c3RlbSBbTmF6d2FdIHByemVrcm9jennFgiBsaW1pdCAyNTAwbXMgLSAodGltZW91dCkiLjxicj48YnI+Mi4gWzIgcGt0XSAtIFByb21pc2UuYWxsOjxicj48YnI+LSBTZXJ3ZXIgcmVhZ3VqZSBuYSDFm2NpZcW8a8SZIC9wb2JpZXJ6LW9mZXJ0eTxicj4tIFVydWNoYW1pYSAzIHggZnVua2NqxJkgc3ByYXdkelN5c3RlbSBkbGEgKEtpbm8sIFRlYXRyLCBLb25jZXJ0KSByw7N3bm9sZWdsZSB6YSBwb21vY8SFIFByb21pc2UuYWxsLjxicj4tIFN1a2NlczogSmXFm2xpIHdzenlzdGtpZSBzeXN0ZW15IHpkxIXFvMSFIHcgY3phc2llICZsdDsgMi41MDBtcywgc2Vyd2VyIHd5c3nFgmEgc3RhdHVzIDIwMCBpIEpTT046IHsgInN0YXR1cyI6ICJTdWtjZXMiLCAib2ZlcnR5IjogWy4uLl0gfS48YnI+LSBCxYLEhWQ6IEplxZtsaSBjaG/FhyBqZWRuYSBvYmlldG5pY2Egem9zdGFuaWUgb2RyenVjb25hIChjemFzICZndDsgMjUwMG1zKSwgc2Vyd2VyIG11c2kgcHJ6ZWNod3ljacSHIGLFgsSFZCBpIHd5c8WCYcSHIHN0YXR1cyA1MDAgeiBvcGlzZW0gLjxicj48YnI+TWV0b2RhIHRlc3Rvd2FuaWEgOiBwcnplZ2zEhWRhcmthOjxicj48YnI+aHR0cDovL2xvY2FsaG9zdDozMDAwL3BvYmllcnotb2ZlcnR5PGJyPjxicj5Qcnp5a8WCYWQgcG9wcmF3bmVqIG9kcG93aWVkemk6PGJyPnsgInN0YXR1cyI6ICJTdWtjZXMiLCAib2ZlcnR5IjogWyB7InN5c3RlbSI6ICJLaW5vIiwgImJpbGV0eSI6IDEyLCAiY3phcyI6IDg1MH0sIC4uLiBdIH08YnI+PGJyPlByenlrxYJhZCBixYLEmWR1IChnZHkga3TDs3J5xZsgc3lzdGVtIHd5bG9zdWplICZndDsgMjUwMG1zKTo8YnI+eyAic3RhdHVzIjogIkLFgsSFZCBrcnl0eWN6bnkiLCAicG93b2QiOiAiU3lzdGVtIFRlYXRyIG5pZSBvZHBvd2llZHppYcWCIHcgY3phc2llIDI1MDBtcyAtwqAgKHRpbWVvdXQpIiB9PGJyPjxicj48dT5aYWRhbmllIDQ6PC91Pjxicj48YnI+Q2VsOiBTdHdvcnplbmllIGJlenBpZWN6bmVnbyBlbmRwb2ludGEgbmEgc2Vyd2VyemUsIGt0w7NyeSByb3pwb3puYWplIHXFvHl0a293bmlrYSBpIG5hZGFqZSBtdSB1cHJhd25pZW5pYSB3IHphbGXFvG5vxZtjaSBvZCBwcnplc8WCYW5lZ28ga2x1Y3phLjxicj48YnI+PC9pPjxkaXY+PGk+bWFteSBkd2Egb3NvYm5lIG1pZGRsZXdhcmUgYXV0aEd1YXJkIGkgZGF0YVByZXAoKSBvcmF6IGNyZWF0ZVNlcnZlcigpPC9pPjwvZGl2PjxpPjxicj4xLiBbMSBwa3RdIC0gcm91dGluZyBpIElkZW50eWZpa2FjamEgLSBtaWRkbGV3YXJlIGF1dGhHdWFyZCgpOjxicj48YnI+LSBTZXJ3ZXIgcmVhZ3VqZSB3ecWCxIVjem5pZSBuYSDFm2NpZcW8a8SZIC9pbmRleDA0LiBLYcW8ZHkgaW5ueSBhZHJlcyAobnAuIC9ob21lKSBrb8WEY3p5IHNpxJkgYsWCxJlkZW0gNDA0Ljxicj4tIElkZW50eWZpa2FjamEgdcW8eXRrb3duaWthIG9kYnl3YSBzacSZIHByemV6IG5hZ8WCw7N3ZWsgeC1hcGkta2V5Ojxicj4tIEtsdWN6IEFETUlOMTIzIC0mZ3Q7IHVzdGF3aWEgdyBvYmlla2NpZSDFvMSFZGFuaWEgKHJlcSkgcm9sxJkgYWRtaW4uPGJyPi0gS2x1Y3ogVVNFUjQ1NiAtJmd0OyB1c3Rhd2lhIHcgb2JpZWtjaWUgeMWFZGFuaWEgKHJlcSkgcm9sxJkgdXNlci48YnI+PGJyPjwvaT48ZGl2PjxpPjIuIFsxIHBrdF3CoCAtIHBlcnNvbmFsaXphY2phIC0gbWlkZGxld2FyZSBkYXRhUHJlcCgpOjwvaT48L2Rpdj48ZGl2PjxpPjxicj48L2k+PC9kaXY+PGk+LSBNaWRkbGV3YXJlIG9kY3p5dHVqZSByb2zEmSBpIGRvcGlzdWplIGRvIG9iaWVrdHUgcmVxIHN6Y3plZ8OzxbN5IGRvc3TEmXB1Ojxicj4tIERsYSBhZG1pbmE6IHBvemlvbSAxMCwgc3RyZWZhIEhhbmdhciBBLCBvcGlzOiBqZXN0IGRvc3TEmXA8YnI+LSBEbGEgdXNlcmE6IHBvemlvbSAxLCBzdHJlZmEgS29yeXRhcno8L2k+PGk+LCBvcGlzOiBicmFrIGRvc3TEmXB1PC9pPjxicj48aT4tIFNlcndlciBvZHN5xYJhIGRvIGtsaWVudGEgb2JpZWt0IEpTT04geiBrb21wbGV0ZW0gdHljaCBkYW55Y2ggKHJvbGEsIHN0cmVmYSwgcG96aW9tLCBvcGlzKS48YnI+PGJyPk1ldG9kYSB0ZXN0b3dhbmlhIDogUG93ZXJTaGVsbDo8YnI+PGJyPmEpIHRlc3QgQWRtaW5pc3RyYXRvcmE6PGJyPjwvaT48ZGl2PjxpPkludm9rZS1SZXN0TWV0aG9kIC1VcmkgImh0dHA6Ly9sb2NhbGhvc3Q6MzAwMC9pbmRleDA0IiAtTWV0aG9kIEdFVCAtSGVhZGVycyBAeyJ4LWFwaS1rZXkiPSJBRE1JTjEyMyJ9PC9pPjwvZGl2PjxkaXY+PGk+PGJyPjwvaT48L2Rpdj48ZGl2PjxpPnJvbGHCoCBzdHJlZmHCoCDCoHBvemlvbSBvcGlzPGJyPi0tLS3CoCAtLS0tLS3CoCDCoC0tLS0tLSAtLS0tPGJyPmFkbWluIEhhbmdhciBBwqAgwqAgwqAxMCBQZcWCbnnFgiBkb3N0xJlwPC9pPjwvZGl2PjxpPjxicj5iKSB0ZXN0IFXFvHl0a293bmlrYTo8YnI+PC9pPjxkaXY+PGk+SW52b2tlLVJlc3RNZXRob2QgLVVyaSAiaHR0cDovL2xvY2FsaG9zdDozMDAwL2luZGV4MDQiIC1NZXRob2QgR0VUIAtIZWFkZXJzIEB7IngtYXBpLWtleSI9IlVTRVI0NTYifTwvaT48L2Rpdj48ZGl2PjxpPjxicj48L2k+PC9kaXY+PGRpdj48aT5yb2xhIHN0cmVmYcKgIMKgIHBvemlvbSBvcGlzPGJyPi0tLS0gLS0tLS0twqAgwqAtLS0tLS0gLS0tLTxicj51c2VyIEtvcnl0YXJ6wqAgwqAgwqAgMSBPZ3Jhbmljem9ueSBkb3N0xJlwPC9pPjwvZGl2PjxkaXY+PGk+PGJyPjwvaT48L2Rpdj48ZGl2PjxpPmMpIHRlc3QgYmV6IGtsdWN6YTwvaT48L2Rpdj48ZGl2PjxpPkludm9rZS1SZXN0TWV0aG9kIC1VcmkgImh0dHA6Ly9sb2NhbGhvc3Q6MzAwMC9pbmRleDA0IiAtTWV0aG9kIEdFVMKgPC9pPjwvZGl2PjxkaXY+PGk+PGJyPjwvaT48L2Rpdj48ZGl2PjxpPnJvbGHCoCBzdHJlZmHCoCDCoCDCoHBvemlvbSBvcGlzPGJyPi0tLS3CoCAtLS0tLS3CoCDCoCDCoCAtLS0tLS0gLS0tLTxicj5ndWVzdCBQb2N6ZWthbG5pYcKgIMKgIMKgMBCQcmFrIGRvc3TEmXB1PC9pPjwvZGl2PjxkaXY+PGk+PGJyPjwvaT48L2Rpdj48aT5kKSB0ZXN0IGLFgsSZZG5laiDFm2NpZcW8a2kgKHBvd2luaWVuIHp3csOzY2nEhyBixYLEhWQgNDA0KTo8YnI+PC9pPjxkaXY+PGk+SW52b2tlLVJlc3RNZXRob2QgLVVyaSAiaHR0cDovL2xvY2FsaG9zdDozMDAwL3Rlc3QiPC9pPjwvZGl2PjxkaXY+PGk+PGJyPjwvaT48L2Rpdj48ZGl2PjxpPkludm9rZS1SZXN0TWV0aG9kOsKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgwqA8YnI+ezxicj7CoCAiZXJyb3IiOiAiTm90IEZvdW5kIiw8YnI+wqAgIm1lc3NhZ2UiOiAiU2Vyd2VyIHJlYWd1amUgdHlsa28gbmEgc2NpZXprZSAvaW5kZXgwNCIsPGJyPsKgICJyZXF1ZXN0ZWRQYXRoIjogIi90ZXN0Ijxicj59PC9pPjwvZGl2PmQCDw8WAh4HVmlzaWJsZWhkZAXo4Ed9OPH6cysZGSdvap+Oi+Jwrzy48NNOH0qPDLFM"
+        />
+      </div>
+
+      <div class="aspNetHidden">
+        <input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="DFCD7BA6" />
+        <input
+          type="hidden"
+          name="__EVENTVALIDATION"
+          id="__EVENTVALIDATION"
+          value="/wEdAChdiXmph+YuPqzco3txhRPEtapcYBT3T/xDd23bdanLCZ4lSpjJpZwdysf+prQUNJlW/KRh451eoBtuAX2Sr18rHDoU445hasIZtKsoKeZfV9HQ92PNIWSdDzz+/eveUfQy/SZBBW2HkbvvX01S9ezDdARTL2i/Qsl6Kn3CT9JLKhaocQac8g4Adwqi5pzQ7f/SaSbM5tB5gG0q0Ap1e3LLi+tNN5JW8o2VGS1iU+XS05vuUKhAGQhbVY8j+62Gnecm9AlXaifCy7oF/PEPzrj435UatvDutGyXF/jqkdPZuvIZkQT0kpAgb6SOqL1UKXx+aL1DVuIAb+HT1YuJmrUEIsM7DoLp/YtUQhsqxK6h9DRbuQzpSkhNfJ2VW+1ijzfZGyYqIA+M1O+JCuWJqFqcuUYfPOS7QYhH/lHJz8YmutkR0AFzbZF7Uo2bi7E4F0xOwLfXym4MQxcWBZVIEMVCuljGANto2ne6K1REAjTw+/gzUrWLt7Dw9AEpzBOpwbTsEwwfrS+6Vh7GmNWTd85JNxLpcjkbWw1y/hybkr1rbPRW6RHVgDd4O3cWKwh27Am2EhMSrGiUreXP7XPDOryLTkN6VRQcWDDksgV0CDX/PHOWbN55KxmEKP0/VDaUt+c9bURdeHcaAZ2phxgoV6FAwqGp544u72EEsL5rq7tVIkZm3+pD9czs4/VNOanmgLpZP98sH5st9bEntIecJjfV/hLgqDv0cBMbxwxqigHzJrsZmFMzmQOVw/HUgBC1kzjs0vfvzTBc2mtrgZEpMpD47V3EfIctGVY9aZvrWJ4Dz2Q28N1KrlWjPGt63ffHFBoUlKYnGyefCPn3D4rAHcOOpLMYEpW4oxd8fhSqi4tLrp5vyY7RX3aNWFyXPImmol4="
+        />
+      </div>
+
+      <div id="loadingDiv" style="visibility: hidden">
+        <div id="loadingContentDiv">
+          <span class="headerKw1"></span>&nbsp;<span class="headerKw2"></span>
+          ładuję...
+        </div>
+      </div>
+
+      <div id="headerDiv">
+        <a href="https://spec.pl.hostingasp.pl/Default.aspx">
+          <div style="color: #339bff; font-size: 24px; font-family: interb; padding: 30px">
+            <div><span style="color: #ed2655">SPEC</span> EduPlatform</div>
+          </div>
+        </a>
+      </div>
+
+      <div
+        id="mainLessonContainer"
+        style="background-color: rgb(34, 37, 42); color: rgb(171, 178, 191); height: 100%; width: 100%"
+      >
+        <div style="flex: 1 1 0%; background-color: rgb(34, 37, 42); height: 100%"></div>
+        <div style="flex: 3 1 0%; background-color: rgb(34, 37, 42); height: 100%">
+          <div
+            class="newsContent"
+            style="background: rgb(34, 37, 42); height: 100%; color: rgb(171, 178, 191); border: medium"
+          >
+            <div
+              class="newsTitle"
+              style="
+                align-items: center;
+                display: flex;
+                justify-content: center;
+                background: rgb(34, 37, 42);
+                height: 100%;
+                color: rgb(171, 178, 191);
+                border: medium;
+              "
+            >
+              <img
+                id="imageLit"
+                src="Sprawdzian%20NodeJS%20(i5)%20-%20ver%201%20-%20SPEC.PL.HOSTINGASP.PL_files/sprawdzian-round.png"
+                style="
+                  background-color: rgb(40, 44, 52);
+                  border-radius: 100px;
+                  object-fit: cover;
+                  width: 100px;
+                  height: 100px;
+                  margin-right: 20px;
+                "
+              />
+            </div>
+            <div
+              class="newsTitle"
+              style="background: rgb(34, 37, 42); height: 100%; color: rgb(171, 178, 191); border: medium"
+            >
+              Sprawdzian NodeJS (i5) - ver 1
+            </div>
+
+            <div id="timeDiv" style="display: none; background-color: rgb(34, 37, 42); height: 100%"></div>
+
+            <div
+              id="buttonsCont"
+              style="
+                display: none;
+                justify-content: center;
+                align-items: center;
+                width: 100%;
+                background-color: rgb(34, 37, 42);
+                height: 100%;
+              "
+            >
+              <div
+                id="themesVisible"
+                style="
+                  display: none;
+                  background: rgb(16, 177, 254);
+                  height: 114%;
+                  color: rgb(34, 37, 42);
+                  border-right: 1px solid rgb(34, 37, 42);
+                "
+              >
+                pokaż motywy
+              </div>
+              <input
+                type="submit"
+                name="saveThemeBt"
+                value="zapisz motyw"
+                id="saveThemeBt"
+                style="
+                  display: none;
+                  background: rgb(16, 177, 254);
+                  color: rgb(34, 37, 42);
+                  border-right: 1px solid rgb(34, 37, 42);
+                "
+              />
+              <div
+                id="showRightPanel"
+                style="
+                  background: rgb(16, 177, 254);
+                  height: 116%;
+                  color: rgb(34, 37, 42);
+                  border-right: 1px solid rgb(34, 37, 42);
+                "
+              >
+                ukryj menu
+              </div>
+              <a
+                id="specLink"
+                title="link do strony głównej"
+                href="https://spec.pl.hostingasp.pl/Default.aspx"
+                style="background: rgb(16, 177, 254); color: rgb(34, 37, 42)"
+                >strona główna</a
+              >
+            </div>
+
+            <div
+              id="themeSelectCont"
+              style="background: rgb(40, 44, 52); height: 100%; border: 1px dotted rgb(171, 178, 191)"
+            >
+              <span id="themeSelect"
+                ><input id="themeSelect_0" type="radio" name="themeSelect" value="default light" /><label
+                  for="themeSelect_0"
+                  style="background: rgb(34, 37, 42); color: rgb(171, 178, 191)"
+                  >default light</label
+                ><input id="themeSelect_1" type="radio" name="themeSelect" value="dark vs" /><label
+                  for="themeSelect_1"
+                  style="background: rgb(34, 37, 42); color: rgb(171, 178, 191)"
+                  >dark vs</label
+                ><input id="themeSelect_2" type="radio" name="themeSelect" value="monokai" /><label
+                  for="themeSelect_2"
+                  style="background: rgb(34, 37, 42); color: rgb(171, 178, 191)"
+                  >monokai</label
+                ><input id="themeSelect_3" type="radio" name="themeSelect" value="night blue" /><label
+                  for="themeSelect_3"
+                  style="background: rgb(34, 37, 42); color: rgb(171, 178, 191)"
+                  >night blue</label
+                ><input id="themeSelect_4" type="radio" name="themeSelect" value="ladies night" /><label
+                  for="themeSelect_4"
+                  style="background: rgb(34, 37, 42); color: rgb(171, 178, 191)"
+                  >ladies night</label
+                ><input id="themeSelect_5" type="radio" name="themeSelect" value="solarized light" /><label
+                  for="themeSelect_5"
+                  style="background: rgb(34, 37, 42); color: rgb(171, 178, 191)"
+                  >solarized light</label
+                ><input id="themeSelect_6" type="radio" name="themeSelect" value="vim dark" /><label
+                  for="themeSelect_6"
+                  style="background: rgb(34, 37, 42); color: rgb(171, 178, 191)"
+                  >vim dark</label
+                ><input id="themeSelect_7" type="radio" name="themeSelect" value="ergo" /><label
+                  for="themeSelect_7"
+                  style="background: rgb(34, 37, 42); color: rgb(171, 178, 191)"
+                  >ergo</label
+                ><input id="themeSelect_8" type="radio" name="themeSelect" value="retta" /><label
+                  for="themeSelect_8"
+                  style="background: rgb(34, 37, 42); color: rgb(171, 178, 191)"
+                  >retta</label
+                ><input id="themeSelect_9" type="radio" name="themeSelect" value="code blocks dark" /><label
+                  for="themeSelect_9"
+                  style="background: rgb(34, 37, 42); color: rgb(171, 178, 191)"
+                  >code blocks dark</label
+                ><input id="themeSelect_10" type="radio" name="themeSelect" value="relax your eyes" /><label
+                  for="themeSelect_10"
+                  style="background: rgb(34, 37, 42); color: rgb(171, 178, 191)"
+                  >relax your eyes</label
+                ><input id="themeSelect_11" type="radio" name="themeSelect" value="ocean sunset" /><label
+                  for="themeSelect_11"
+                  style="background: rgb(34, 37, 42); color: rgb(171, 178, 191)"
+                  >ocean sunset</label
+                ><input id="themeSelect_12" type="radio" name="themeSelect" value="xor" /><label
+                  for="themeSelect_12"
+                  style="background: rgb(34, 37, 42); color: rgb(171, 178, 191)"
+                  >xor</label
+                ><input id="themeSelect_13" type="radio" name="themeSelect" value="spacegray" /><label
+                  for="themeSelect_13"
+                  style="background: rgb(34, 37, 42); color: rgb(171, 178, 191)"
+                  >spacegray</label
+                ><input id="themeSelect_14" type="radio" name="themeSelect" value="dark python" /><label
+                  for="themeSelect_14"
+                  style="background: rgb(34, 37, 42); color: rgb(171, 178, 191)"
+                  >dark python</label
+                ><input id="themeSelect_15" type="radio" name="themeSelect" value="vs dark 2" /><label
+                  for="themeSelect_15"
+                  style="background: rgb(34, 37, 42); color: rgb(171, 178, 191)"
+                  >vs dark 2</label
+                ><input id="themeSelect_16" type="radio" name="themeSelect" value="vs light" /><label
+                  for="themeSelect_16"
+                  style="background: rgb(34, 37, 42); color: rgb(171, 178, 191)"
+                  >vs light</label
+                ><input id="themeSelect_17" type="radio" name="themeSelect" value="ocean by night" /><label
+                  for="themeSelect_17"
+                  style="background: rgb(34, 37, 42); color: rgb(171, 178, 191)"
+                  >ocean by night</label
+                ><input id="themeSelect_18" type="radio" name="themeSelect" value="monokai 2" /><label
+                  for="themeSelect_18"
+                  style="background: rgb(34, 37, 42); color: rgb(171, 178, 191)"
+                  >monokai 2</label
+                ><input id="themeSelect_19" type="radio" name="themeSelect" value="atom one dark" /><label
+                  for="themeSelect_19"
+                  style="background: rgb(34, 37, 42); color: rgb(171, 178, 191)"
+                  >atom one dark</label
+                ><input id="themeSelect_20" type="radio" name="themeSelect" value="panda" /><label
+                  for="themeSelect_20"
+                  style="background: rgb(34, 37, 42); color: rgb(171, 178, 191)"
+                  >panda</label
+                ><input id="themeSelect_21" type="radio" name="themeSelect" value="gartur" /><label
+                  for="themeSelect_21"
+                  style="background: rgb(34, 37, 42); color: rgb(171, 178, 191)"
+                  >gartur</label
+                ><input id="themeSelect_22" type="radio" name="themeSelect" value="ppad" /><label
+                  for="themeSelect_22"
+                  style="background: rgb(34, 37, 42); color: rgb(171, 178, 191)"
+                  >ppad</label
+                ><input id="themeSelect_23" type="radio" name="themeSelect" value="donk" /><label
+                  for="themeSelect_23"
+                  style="background: rgb(34, 37, 42); color: rgb(171, 178, 191)"
+                  >donk</label
+                ><input id="themeSelect_24" type="radio" name="themeSelect" value="intellij" /><label
+                  for="themeSelect_24"
+                  style="background: rgb(34, 37, 42); color: rgb(171, 178, 191)"
+                  >intellij</label
+                ><input id="themeSelect_25" type="radio" name="themeSelect" value="vsc solarized" /><label
+                  for="themeSelect_25"
+                  style="background: rgb(34, 37, 42); color: rgb(171, 178, 191)"
+                  >vsc solarized</label
+                ><input id="themeSelect_26" type="radio" name="themeSelect" value="vsc tomorrow night" /><label
+                  for="themeSelect_26"
+                  style="background: rgb(34, 37, 42); color: rgb(171, 178, 191)"
+                  >vsc tomorrow night</label
+                ><input id="themeSelect_27" type="radio" name="themeSelect" value="bluloco" /><label
+                  for="themeSelect_27"
+                  style="background: rgb(34, 37, 42); color: rgb(171, 178, 191)"
+                  >bluloco</label
+                ><input id="themeSelect_28" type="radio" name="themeSelect" value="gradianto" /><label
+                  for="themeSelect_28"
+                  style="background: rgb(34, 37, 42); color: rgb(171, 178, 191)"
+                  >gradianto</label
+                ><input id="themeSelect_29" type="radio" name="themeSelect" value="synthwave" /><label
+                  for="themeSelect_29"
+                  style="background: rgb(34, 37, 42); color: rgb(171, 178, 191)"
+                  >synthwave</label
+                ><input id="themeSelect_30" type="radio" name="themeSelect" value="winter" /><label
+                  for="themeSelect_30"
+                  style="background: rgb(34, 37, 42); color: rgb(171, 178, 191)"
+                  >winter</label
+                ><input id="themeSelect_31" type="radio" name="themeSelect" value="tokyo" /><label
+                  for="themeSelect_31"
+                  style="background: rgb(34, 37, 42); color: rgb(171, 178, 191)"
+                  >tokyo</label
+                ><input id="themeSelect_32" type="radio" name="themeSelect" value="tailwind" /><label
+                  for="themeSelect_32"
+                  style="background: rgb(34, 37, 42); color: rgb(171, 178, 191)"
+                  >tailwind</label
+                ><input id="themeSelect_33" type="radio" name="themeSelect" value="tokyo night" /><label
+                  for="themeSelect_33"
+                  style="background: rgb(34, 37, 42); color: rgb(171, 178, 191)"
+                  >tokyo night</label
+                ><input id="themeSelect_34" type="radio" name="themeSelect" value="tv movie" /><label
+                  for="themeSelect_34"
+                  style="background: rgb(34, 37, 42); color: rgb(171, 178, 191)"
+                  >tv movie</label
+                ><br /><input id="themeSelect_35" type="radio" name="themeSelect" value="night pink" /><label
+                  for="themeSelect_35"
+                  style="background: rgb(34, 37, 42); color: rgb(171, 178, 191)"
+                  >night pink</label
+                ><input id="themeSelect_36" type="radio" name="themeSelect" value="rose pink" /><label
+                  for="themeSelect_36"
+                  style="background: rgb(34, 37, 42); color: rgb(171, 178, 191)"
+                  >rose pink</label
+                ><br
+              /></span>
+            </div>
+
+            <div
+              class="newsDate"
+              style="background-color: rgb(34, 37, 42); height: 100%; color: rgb(16, 177, 254)"
+            ></div>
+
+            <div style="background-color: rgb(34, 37, 42); height: 100%">
+              <div style="background-color: rgb(34, 37, 42); height: 100%">
+                <i><u>Opis</u></i>
+              </div>
+              <div style="background-color: rgb(34, 37, 42); height: 100%">
+                <i
+                  ><u><br /></u
+                ></i>
+              </div>
+              <div style="background-color: rgb(34, 37, 42); height: 100%">
+                <i>a) cztery zadania, cztery pliki serwera (js)</i>
+              </div>
+              <div style="background-color: rgb(34, 37, 42); height: 100%">
+                <i>b) można korzystać z dowolnej oficjalnej dokumentacji do nodejs, html, js</i>
+              </div>
+              <div style="background-color: rgb(34, 37, 42); height: 100%">
+                <i>c) nie otwieramy żadnych innych swoich ćwiczeń</i>
+              </div>
+              <div style="background-color: rgb(34, 37, 42); height: 100%">
+                <i>d) piszemy na moich komputerach<br /></i>
+              </div>
+              <div style="background-color: rgb(34, 37, 42); height: 100%">
+                <i>e) przed końcem lekcji podam miejsce do skopiowania spakowanego folderu</i>
+              </div>
+              <div style="background-color: rgb(34, 37, 42); height: 100%">
+                <i><br /></i>
+              </div>
+              <div style="background-color: rgb(34, 37, 42); height: 100%">
+                <i>/*----------------------------------------------------------------------------</i>
+              </div>
+              <div style="background-color: rgb(34, 37, 42); height: 100%">
+                <i><br /></i>
+              </div>
+              <div style="background-color: rgb(34, 37, 42); height: 100%">
+                <i>W zadaniach 3 i 4 brak strony html, jest tylko serwer!</i>
+              </div>
+              <br />
+            </div>
+            <div style="background-color: rgb(34, 37, 42); height: 100%">
+              <i>/*----------------------------------------------------------------------------</i>
+            </div>
+            <div style="background-color: rgb(34, 37, 42); height: 100%">
+              <i><br /></i>
+            </div>
+            <div style="background-color: rgb(34, 37, 42); height: 100%">
+              <i><br /></i>
+            </div>
+            <div style="background-color: rgb(34, 37, 42); height: 100%">
+              <u><i>Zadanie 1&nbsp;</i></u>
+            </div>
+            <i
+              ><br />W folderze "static" utwórz stronę index01.html zawierającą trzy linki (a href) z parametrami:
+              postac oraz lvl.<br /><br />Oceniane działania:&nbsp;<br /><br />1. [1 pkt] - po uruchomieniu adresu
+              /index01 serwer poprawnie wyświetla plik index01.html<br /><br />2. [1 pkt] - po kliknięciu w link (np.
+              /wybor?postac=mag&amp;lvl=10), serwer wyświetla stronę z odebraną nazwą, poziomem&nbsp;<br /><br />3. [1
+              pkt] - oraz pasującym zdjęciem (.jpg) pobranym z serwera<br /><br
+            /></i>
+            <div style="background-color: rgb(34, 37, 42); height: 100%"><i>obrazki:</i></div>
+            <div style="background-color: rgb(34, 37, 42); height: 100%">
+              <i><br /></i>
+            </div>
+            <div style="background-color: rgb(34, 37, 42); height: 100%">
+              <i>Wojownik: unsplash.com/s/photos/warrior</i>
+            </div>
+            <i
+              >Mag / Czarodziej: unsplash.com/s/photos/wizard<br />Łucznik: unsplash.com/s/photos/archer<br /><br /><u
+                >Zadanie 2</u
+              ><br /><br />W folderze "static" utwórz stronę index02.html, która przesyła dane rekruta i wyświetla
+              odpowiedź JSON z serwera.<br /><br />Oceniane działania:&nbsp;<br /><br />1. [1pkt] - formularz wysyła
+              dane POST (fetch): {"rekrut": "...", "klasa": "...", "sila": 10} - widać console.log na serwerze<br /><br />2.&nbsp;
+              [1pkt] - serwer dopisuje dane do pliku, a następnie odsyła dane o strukturze:<br
+            /></i>
+            <div style="background-color: rgb(34, 37, 42); height: 100%">
+              <i><br /></i>
+            </div>
+            <div style="background-color: rgb(34, 37, 42); height: 100%"><i>{&nbsp;</i></div>
+            <i
+              >&nbsp; "armia": ["rekrut1", "rekrut2"],&nbsp;<br />&nbsp; "statystyki": { "liczbaOsob": X, "sredniaSila":
+              Y }&nbsp;<br />}<br /><br />Wynik ma zostać wyświetlony na stronie w tagu &lt;pre&gt;&nbsp;<br /><br /><u
+                >Zadanie 3:&nbsp;</u
+              ><br /><br />Cel: Stworzenie endpointu API, który pobiera dane z trzech różnych systemów
+              jednocześnie.&nbsp;<br /><br /></i
+            ><i>1. [1 pkt] Logika promises:<br /></i>
+            <div style="background-color: rgb(34, 37, 42); height: 100%"><br /></div>
+            <div style="background-color: rgb(34, 37, 42); height: 100%">
+              <i>-&nbsp;</i><i>funkcja&nbsp;</i><i>sprawdzSystem() jest napisana poza createServer()</i>
+            </div>
+            <i
+              >- funkcja sprawdzSystem() musi zwracać "new Promise"<br />- Musi symulować opóźnienie (setTimeout) w
+              zakresie od 500ms do 3000ms<br />- Warunek błędu: Jeśli wylosowany czas odpowiedzi przekroczy 2500ms,
+              obietnica musi zostać odrzucona (reject) z komunikatem: "System [Nazwa] przekroczył limit 2500ms -
+              (timeout)".<br /><br />2. [2 pkt] - Promise.all:<br /><br />- Serwer reaguje na ścieżkę /pobierz-oferty<br />-
+              Uruchamia 3 x funkcję sprawdzSystem dla (Kino, Teatr, Koncert) równolegle za pomocą Promise.all.<br />-
+              Sukces: Jeśli wszystkie systemy zdążą w czasie &lt; 2.500ms, serwer wysyła status 200 i JSON: { "status":
+              "Sukces", "oferty": [...] }.<br />- Błąd: Jeśli choć jedna obietnica zostanie odrzucona (czas &gt;
+              2500ms), serwer musi przechwycić błąd i wysłać status 500 z opisem .<br /><br />Metoda testowania :
+              przeglądarka:<br /><br />http://localhost:3000/pobierz-oferty<br /><br />Przykład poprawnej odpowiedzi:<br />{
+              "status": "Sukces", "oferty": [ {"system": "Kino", "bilety": 12, "czas": 850}, ... ] }<br /><br />Przykład
+              błędu (gdy któryś system wylosuje &gt; 2500ms):<br />{ "status": "Błąd krytyczny", "powod": "System Teatr
+              nie odpowiedział w czasie 2500ms -&nbsp; (timeout)" }<br /><br /><u>Zadanie 4:</u><br /><br />Cel:
+              Stworzenie bezpiecznego endpointa na serwerze, który rozpoznaje użytkownika i nadaje mu uprawnienia w
+              zależności od przesłanego klucza.<br /><br
+            /></i>
+            <div style="background-color: rgb(34, 37, 42); height: 100%">
+              <i>mamy dwa osobne middleware authGuard i dataPrep() oraz createServer()</i>
+            </div>
+            <i
+              ><br />1. [1 pkt] - routing i Identyfikacja - middleware authGuard():<br /><br />- Serwer reaguje
+              wyłącznie na ścieżkę /index04. Każdy inny adres (np. /home) kończy się błędem 404.<br />- Identyfikacja
+              użytkownika odbywa się przez nagłówek x-api-key:<br />- Klucz ADMIN123 -&gt; ustawia w obiekcie żądania
+              (req) rolę admin.<br />- Klucz USER456 -&gt; ustawia w obiekcie żądania (req) rolę user.<br /><br
+            /></i>
+            <div style="background-color: rgb(34, 37, 42); height: 100%">
+              <i>2. [1 pkt]&nbsp; - personalizacja - middleware dataPrep():</i>
+            </div>
+            <div style="background-color: rgb(34, 37, 42); height: 100%">
+              <i><br /></i>
+            </div>
+            <i
+              >- Middleware odczytuje rolę i dopisuje do obiektu req szczegóły dostępu:<br />- Dla admina: poziom 10,
+              strefa Hangar A, opis: jest dostęp<br />- Dla usera: poziom 1, strefa Korytarz</i
+            ><i>, opis: brak dostępu</i><br /><i
+              >- Serwer odsyła do klienta obiekt JSON z kompletem tych danych (rola, strefa, poziom, opis).<br /><br />Metoda
+              testowania : PowerShell:<br /><br />a) test Administratora:<br
+            /></i>
+            <div style="background-color: rgb(34, 37, 42); height: 100%">
+              <i
+                >Invoke-RestMethod -Uri "http://localhost:3000/index04" -Method GET -Headers
+                @{"x-api-key"="ADMIN123"}</i
+              >
+            </div>
+            <div style="background-color: rgb(34, 37, 42); height: 100%">
+              <i><br /></i>
+            </div>
+            <div style="background-color: rgb(34, 37, 42); height: 100%">
+              <i
+                >rola&nbsp; strefa&nbsp; &nbsp;poziom opis<br />----&nbsp; ------&nbsp; &nbsp;------ ----<br />admin
+                Hangar A&nbsp; &nbsp; &nbsp;10 Pełny dostęp</i
+              >
+            </div>
+            <i><br />b) test Użytkownika:<br /></i>
+            <div style="background-color: rgb(34, 37, 42); height: 100%">
+              <i
+                >Invoke-RestMethod -Uri "http://localhost:3000/index04" -Method GET -Headers @{"x-api-key"="USER456"}</i
+              >
+            </div>
+            <div style="background-color: rgb(34, 37, 42); height: 100%">
+              <i><br /></i>
+            </div>
+            <div style="background-color: rgb(34, 37, 42); height: 100%">
+              <i
+                >rola strefa&nbsp; &nbsp;poziom opis<br />---- ------&nbsp; &nbsp;------ ----<br />user Korytarz&nbsp;
+                &nbsp; &nbsp; 1 Ograniczony dostęp</i
+              >
+            </div>
+            <div style="background-color: rgb(34, 37, 42); height: 100%">
+              <i><br /></i>
+            </div>
+            <div style="background-color: rgb(34, 37, 42); height: 100%"><i>c) test bez klucza</i></div>
+            <div style="background-color: rgb(34, 37, 42); height: 100%">
+              <i>Invoke-RestMethod -Uri "http://localhost:3000/index04" -Method GET&nbsp;</i>
+            </div>
+            <div style="background-color: rgb(34, 37, 42); height: 100%">
+              <i><br /></i>
+            </div>
+            <div style="background-color: rgb(34, 37, 42); height: 100%">
+              <i
+                >rola&nbsp; strefa&nbsp; &nbsp; &nbsp; poziom opis<br />----&nbsp; ------&nbsp; &nbsp; &nbsp; ------
+                ----<br />guest Poczekalnia&nbsp; &nbsp; &nbsp; 0 Brak dostępu</i
+              >
+            </div>
+            <div style="background-color: rgb(34, 37, 42); height: 100%">
+              <i><br /></i>
+            </div>
+            <i>d) test błędnej ścieżki (powinien zwrócić błąd 404):<br /></i>
+            <div style="background-color: rgb(34, 37, 42); height: 100%">
+              <i>Invoke-RestMethod -Uri "http://localhost:3000/test"</i>
+            </div>
+            <div style="background-color: rgb(34, 37, 42); height: 100%">
+              <i><br /></i>
+            </div>
+            <div style="background-color: rgb(34, 37, 42); height: 100%">
+              <i
+                >Invoke- RestMethod:&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<br />{<br />&nbsp; "error": "Not
+                Found",<br />&nbsp; "message": "Serwer reaguje tylko na sciezke /index04",<br />&nbsp; "requestedPath":
+                "/test"<br />}</i
+              >
+            </div>
+          </div>
+        </div>
+
+        <div style="flex: 1 1 0%; height: 100%; background-color: rgb(34, 37, 42)">
+          <div class="newsDescription" style="background: rgb(34, 37, 42); height: 100%">
+            <div style="background-color: rgb(34, 37, 42); height: 100%">
+              <div style="margin-bottom: 20px; font-weight: bold; background-color: rgb(34, 37, 42); height: 100%">
+                tematyka:
+              </div>
+              <div class="newsDescriptionInner" style="background-color: rgb(34, 37, 42); height: 100%"></div>
+              <div
+                class="newsSeries"
+                style="
+                  background-color: rgb(34, 37, 42);
+                  height: 100%;
+                  font-size: 14px;
+                  font-family: inter;
+                  color: rgb(255, 120, 248);
+                "
+              >
+                <div id="seriesPanel" style="background-color: rgb(34, 37, 42); height: 100%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="newsFooter" style="background: rgb(34, 37, 42); color: rgb(171, 178, 191); border: medium">
+        Materiały przeznaczone wyłącznie dla uczniów Technikum Łączności nr 14 w Zespole Szkół Łączności w Krakowie
+        <br />
+        <span style="color: #ed2655; font-family: interb">SPEC</span>
+        <span style="color: #339bff; font-family: interb">EduPlatform</span>
+        <br />
+        © Dariusz Stefańczyk 2026
+      </div>
+
+      <button
+        id="scrollToTopBtn"
+        title="Wróć na górę"
+        style="display: inline-block; background: rgb(40, 44, 52); color: rgb(16, 177, 254)"
+      >
+        ↑
+      </button>
+
+      <script src="Sprawdzian%20NodeJS%20(i5)%20-%20ver%201%20-%20SPEC.PL.HOSTINGASP.PL_files/showLesson.js"></script>
+    </form>
+
+    <div id="alertDiv">
+      <div id="alertContentDiv">
+        <div id="alertKomunikatDiv">
+          <span class="headerKw1"></span><span class="headerKw2"></span>
+          <div id="alertomunikatContent"></div>
+        </div>
+      </div>
+    </div>
+
+    <noscript>
+      <div id="noJSDiv">
+        <div id="noJSContentDiv">
+          <div id="noJSTitleDiv">Uwaga:</div>
+          <div style="margin: 5px">
+            Proszę włączyć obsługę Java scripta w przeglądarce.
+            <br />
+            W przeciwnym wypadku strona nie będzie funkcjonować prawidłowo.
+          </div>
+        </div>
+      </div>
+    </noscript>
+
+    <script>
+      function ShowAlert(komunikat) {
+        alert = document.getElementById('alertDiv');
+        alert.style.visibility = 'visible';
+        document.getElementById('alertomunikatContent').innerHTML = komunikat;
+      }
+    </script>
+  </body>
+</html>
