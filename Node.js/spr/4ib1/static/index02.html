@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <input placeholder="tytuł" id="tytul" required />
+    <input placeholder="autor" id="autor" required />
+    <button onclick="sendForm()">Wyślij</button>
+    <pre id="pre" style="background: lightgray"></pre>
+  </body>
+</html>
+<script>
+  async function sendForm() {
+    const tytul = document.getElementById("tytul").value;
+    const autor = document.getElementById("autor").value;
+    const data_dodania = new Date(Date.now()).toLocaleString();
+
+    const res = await fetch("/dodaj-ksiazke", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ tytul, autor, data_dodania }),
+    });
+
+    const parsed = JSON.stringify(JSON.parse(await res.text()), null, 2);
+    document.getElementById("pre").textContent = parsed;
+  }
+</script>

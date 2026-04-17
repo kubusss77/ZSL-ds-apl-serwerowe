@@ -1,0 +1,14 @@
+{
+  "ksiazki": [
+    {
+      "tytul": "ksiazka1",
+      "autor": "autor1",
+      "dodano": "17.04.2026, 12:39:16"
+    },
+    {
+      "tytul": "ksiazka2",
+      "autor": "autor2",
+      "dodano": "17.04.2026, 12:39:26"
+    }
+  ]
+}
