@@ -1,1 +1,1 @@
-const photos = [];
+export const photos = [];

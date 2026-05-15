@@ -1,56 +1,51 @@
-import formidable, { errors as formidableErrors } from 'formidable';
-import path from 'path';
 import { promises as fs } from 'fs';
+import path from 'path';
+import { APP_CONFIG } from './constants.js';
+import { sendError } from './utils.js';
 
-const ROOT_DIR = path.resolve();
-const UPLOADS_DIR = path.join(ROOT_DIR, 'uploads');
-
-fs.mkdir(UPLOADS_DIR, { recursive: true });
+import { getAllPhotos, getPhotoById } from './controllers/get-photos.controller.js';
+import { uploadPhotos } from './controllers/upload-photos.controller.js';
+import { deletePhotoById } from './controllers/delete-photo.js';
 
 export async function route(req, res) {
   const { method, url } = req;
 
-  if (url === '/') {
-    const html = await fs.readFile(path.join(ROOT_DIR, 'form.html'));
-    res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
-    res.end(html);
-  }
+  try {
+    if (url === '/') {
+      const html = await fs.readFile(path.join(APP_CONFIG.ROOT_DIR, 'form.html'));
+      res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+      res.end(html);
+    }
 
-  if (url === '/api/photos') {
-    try {
+    if (url === '/api/photos') {
       switch (method) {
         case 'GET': {
-          // get
-          break;
+          getAllPhotos(req, res);
+          return;
         }
         case 'POST': {
-          const form = formidable({});
-          const [fields, files] = await form.parse(req);
-
-          const albumName = fields.album[0];
-
-          fs.mkdir(path.join(UPLOADS_DIR, albumName), { recursive: true });
-
-          console.log(files);
-
-          Object.keys(files).forEach(async (file) => {
-            const oldFilename = files[file][0].filepath;
-            const extension = path.extname(files[file][0].originalFilename);
-
-            await fs.rename(oldFilename, path.join(UPLOADS_DIR, albumName, Date.now() + extension));
-          });
-
-          sendJson(res, 200, {});
+          uploadPhotos(req, res);
           return;
         }
       }
-    } catch (error) {
-      console.error(error);
     }
-  }
-}
 
-function sendJson(res, status, data) {
-  res.writeHead(status, { 'Content-Type': 'application/json' });
-  res.end(JSON.stringify(data));
+    if (url.startsWith('/api/photos/')) {
+      switch (method) {
+        case 'GET': {
+          getPhotoById(req, res);
+          return;
+        }
+        case 'DELETE': {
+          deletePhotoById(req, res);
+          return;
+        }
+      }
+    }
+
+    sendError(res, 404, 'Endpoint not found');
+  } catch (error) {
+    sendError(res, 500, 'Internal server error');
+    console.error(error);
+  }
 }
