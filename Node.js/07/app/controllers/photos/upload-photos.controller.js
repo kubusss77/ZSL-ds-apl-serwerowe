@@ -1,9 +1,9 @@
 import formidable from 'formidable';
 import { promises as fs } from 'fs';
 import path from 'path';
-import { APP_CONFIG } from '../constants.js';
-import { sendError, sendJson } from '../utils.js';
-import { photos } from '../model.js';
+import { APP_CONFIG } from '../../constants.js';
+import { sendError, sendJson } from '../../utils.js';
+import { photos } from '../../model.js';
 
 export async function uploadPhotos(req, res) {
   const form = formidable();
@@ -38,7 +38,7 @@ export async function uploadPhotos(req, res) {
       history: [
         {
           status: 'original',
-          lastModifiedDate: new Date().toISOString(),
+          timestamp: Date.now(),
         },
       ],
     });
@@ -46,6 +46,6 @@ export async function uploadPhotos(req, res) {
 
   console.log(`Uploaded ${files.length} files to album "${albumName}"`);
 
-  sendJson(res, 200, {});
+  sendJson(res, 201, {});
   return;
 }

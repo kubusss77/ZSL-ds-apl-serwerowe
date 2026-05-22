@@ -1,5 +1,5 @@
-import { sendError, sendJson } from '../utils.js';
-import { photos } from '../model.js';
+import { sendError, sendJson } from '../../utils.js';
+import { photos } from '../../model.js';
 
 export async function getAllPhotos(req, res) {
   sendJson(res, 200, photos);

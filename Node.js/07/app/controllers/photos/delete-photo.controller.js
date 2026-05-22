@@ -1,8 +1,8 @@
 import { promises as fs } from 'fs';
 import path from 'path';
-import { APP_CONFIG } from '../constants.js';
-import { sendError, sendJson } from '../utils.js';
-import { photos } from '../model.js';
+import { APP_CONFIG } from '../../constants.js';
+import { sendError, sendJson } from '../../utils.js';
+import { photos } from '../../model.js';
 
 export async function deletePhotoById(req, res) {
   const id = parseInt(req.url.split('/').pop(), 10);

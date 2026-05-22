@@ -1,0 +1,20 @@
+@baseUrl = http://localhost:3000/api
+
+
+### All pphotos metadata
+GET {{baseUrl}}/photos
+
+### Single photo metadata
+GET {{baseUrl}}/photos/1779436155908
+
+### Delete photo
+DELETE {{baseUrl}}/photos/1779436155908
+
+### Update photo
+
+PATCH {{baseUrl}}/photos/1779439360852
+Content-Type: application/json
+
+{
+  "status": "new"
+}

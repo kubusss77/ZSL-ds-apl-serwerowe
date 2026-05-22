@@ -1,9 +1,0 @@
-### All pphotos metadata
-GET http://localhost:3000/api/photos
-
-### Single photo metadata
-GET http://localhost:3000/api/photos/1778855415167
-
-## Delete photo
-
-DELETE http://localhost:3000/api/photos/1778855415167

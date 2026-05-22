@@ -1,0 +1,20 @@
+@baseUrl = http://localhost:3000/api
+
+### Get all tags
+GET {{baseUrl}}/tags
+
+### Get all tags raw
+
+GET {{baseUrl}}/tags/raw
+
+### Add new tag
+POST {{baseUrl}}/tags
+Content-Type: application/json
+
+{
+  "name": "aadsadasds",
+  "popularity": 23
+}
+
+### Get tags stats
+GET {{baseUrl}}/tags/stats
