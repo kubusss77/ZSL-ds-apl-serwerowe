@@ -3,12 +3,12 @@ export function sendJson(res, status, data) {
   res.end(JSON.stringify(data));
 }
 
-export function sendError(res, status, message) {
+export function sendMessage(res, status, message) {
   res.writeHead(status, { 'Content-Type': 'application/json' });
   res.end(JSON.stringify({ message }));
 }
 
-export async function getJsonBody(req) {
+export async function getJsonBody(req, required) {
   return new Promise((resolve) => {
     let body = '';
 
@@ -18,10 +18,16 @@ export async function getJsonBody(req) {
 
     req.on('end', () => {
       try {
-        console.log('end');
-        resolve(JSON.parse(body));
+        const parsedBody = JSON.parse(body);
+
+        resolve({
+          body: parsedBody,
+          errors: Object.keys(required)
+            .filter((k) => typeof parsedBody[k] !== required[k])
+            .map((k) => `${k} (${required[k]})`),
+        });
       } catch (error) {
-        resolve();
+        resolve({ body: undefined });
       }
     });
   });

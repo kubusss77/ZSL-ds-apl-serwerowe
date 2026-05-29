@@ -1,4 +1,4 @@
-import { sendError, sendJson } from '../../utils.js';
+import { sendMessage, sendJson } from '../../utils/http.utils.js';
 import { tags, rawTags } from '../../model.js';
 
 export function getAllTags(req, res) {

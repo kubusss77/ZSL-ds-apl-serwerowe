@@ -1,28 +1,27 @@
-import { sendError, sendJson } from '../../utils.js';
-import { getJsonBody } from '../../utils.js';
+import { getJsonBody, sendMessage, sendJson } from '../../utils/http.utils.js';
 import { newTagId, tags } from '../../model.js';
 
 export async function addTag(req, res) {
   const body = await getJsonBody(req);
   if (!body) {
-    sendError(res, 400, 'Invalid JSON body');
+    sendMessage(res, 400, 'Invalid JSON body');
     return;
   }
 
   if (typeof body.name !== 'string') {
-    sendError(res, 400, 'Invalid name');
+    sendMessage(res, 400, 'Invalid name');
     return;
   }
 
   if (typeof body.popularity !== 'number') {
-    sendError(res, 400, 'Invalid popularity');
+    sendMessage(res, 400, 'Invalid popularity');
     return;
   }
 
   if (!body.name.startsWith('#')) body.name = '#' + body.name;
 
   if (tags.findIndex((t) => t.name === body.name) !== -1) {
-    sendError(res, 400, 'Tag already exists');
+    sendMessage(res, 400, 'Tag already exists');
     return;
   }
 

@@ -2,7 +2,7 @@ import formidable from 'formidable';
 import { promises as fs } from 'fs';
 import path from 'path';
 import { APP_CONFIG } from '../../constants.js';
-import { sendError, sendJson } from '../../utils.js';
+import { sendMessage, sendJson } from '../../utils/http.utils.js';
 import { photos } from '../../model.js';
 
 export async function uploadPhotos(req, res) {
@@ -12,12 +12,12 @@ export async function uploadPhotos(req, res) {
   const albumName = fields.album[0];
 
   if (!albumName) {
-    sendError(res, 400, 'Album name is required');
+    sendMessage(res, 400, 'Album name is required');
     return;
   }
 
   if (!files || files.length < 1) {
-    sendError(res, 400, 'At least one file is required');
+    sendMessage(res, 400, 'At least one file is required');
     return;
   }
 

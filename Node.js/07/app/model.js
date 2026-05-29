@@ -21,3 +21,10 @@ let tagIds = initTags.length;
 export const newTagId = () => ++tagIds;
 
 export const rawTags = () => tags.map((t) => t.name);
+
+export const users = [];
+let userIds = 0;
+
+export const newUserId = () => ++userIds;
+
+export const tokensBlacklist = [];

@@ -1,0 +1,31 @@
+@baseUrl = http://localhost:3000/api
+
+### Register new user
+POST {{baseUrl}}/user/register
+Content-Type: application/json
+
+{
+  "name": "kuba",
+  "lastName": "sz",
+  "email": "email@example.com",
+  "password": "2"
+}
+
+### Confirm user
+GET {{baseUrl}}/user/confirm/<token>
+
+### Login user
+POST {{baseUrl}}/user/login
+Content-Type: application/json
+
+{
+  "email": "email@example.com",
+  "password": "2"
+}
+
+### Logout user
+POST {{baseUrl}}/user/logout
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3ODAwNTEwMzIsImV4cCI6MTc4MDEzNzQzMn0.Hwne2L14Sx88ffp0U13Khqgl6PDKoFoqIMlOLtyY-Ag
+
+### Get tokens blacklist
+GET {{baseUrl}}/user/blacklist
