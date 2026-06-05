@@ -9,6 +9,8 @@
         font-family: sans-serif;
         display: flex;
         justify-content: center;
+        flex-direction: column;
+        gap: 2rem;
         align-items: center;
         height: 100vh;
         background-color: #f4f4f9;
@@ -57,6 +59,14 @@
 
       <div>
         <label for="files">Wybierz pliki:</label>
+        <input type="file" id="files" name="files" multiple />
+      </div>
+
+      <button type="submit">Wyślij dane</button>
+    </form>
+    <form action="/api/profile" method="POST" enctype="multipart/form-data">
+      <div>
+        <label for="files">Wybierz zdjęcie profilowe:</label>
         <input type="file" id="files" name="files" multiple />
       </div>
 

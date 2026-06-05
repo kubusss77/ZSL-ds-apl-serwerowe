@@ -31,7 +31,10 @@ export async function registerUser(req, res) {
       sendMessage(res, 400, 'User exists');
       return;
     } else {
-      //pop user
+      users.splice(users.indexOf(existingUser), 1);
+
+      sendMessage(res, 400, 'Unconfirmed user deleted. Try registering again');
+      return;
     }
   }
 
@@ -44,6 +47,7 @@ export async function registerUser(req, res) {
     ...body,
     isConfirmed: false,
     passwordHash,
+    profileArray: [],
   });
 
   const token = await signJwt(CONFIRM_USER_TOKEN_EXPIRATION, { sub: userId, type: 'confirm-user' });

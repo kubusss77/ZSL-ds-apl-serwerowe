@@ -41,7 +41,7 @@ export async function loginUser(req, res) {
   }
 
   const token = await signJwt(AUTH_TOKEN_EXPIRY, {
-    sub: user.is,
+    sub: user.id,
   });
 
   res.setHeader('Authorization', 'Bearer ' + token);

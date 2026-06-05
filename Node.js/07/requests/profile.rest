@@ -1,0 +1,15 @@
+@baseUrl = http://localhost:3000/api
+
+### User profile
+GET {{baseUrl}}/profile
+Authorization: Bearer
+
+### Profile update
+PATCH {{baseUrl}}/profile
+Content-Type: application/json
+Authorization: Bearer <token>
+
+{
+ "name": "NoweImie",
+ "lastName": "NoweNazwisko"
+}

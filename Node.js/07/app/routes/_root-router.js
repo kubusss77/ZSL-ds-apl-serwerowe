@@ -6,6 +6,7 @@ import { sendMessage } from '../utils/http.utils.js';
 import { photosRouter } from './photos.routes.js';
 import { tagsRouter } from './tags.router.js';
 import { userRouter } from './user.routes.js';
+import { profileRouter } from './profile.router.js';
 
 export async function rootRouter(req, res) {
   console.log('url: ', req.url);
@@ -33,6 +34,12 @@ export async function rootRouter(req, res) {
     // USER
     if (req.url.startsWith('/api/user')) {
       userRouter(req, res);
+      return;
+    }
+
+    //PROFILE
+    if (req.url.startsWith('/api/profile')) {
+      profileRouter(req, res);
       return;
     }
 

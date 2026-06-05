@@ -15,7 +15,12 @@ export async function signJwt(time, data) {
 }
 
 export async function verifyJwt(token) {
-  return jwt.verify(token, APP_CONFIG.JWT_SECRET);
+  try {
+    const payload = jwt.verify(token, APP_CONFIG.JWT_SECRET);
+    return payload;
+  } catch (err) {
+    return false;
+  }
 }
 
 export async function decodeJwt(token) {
