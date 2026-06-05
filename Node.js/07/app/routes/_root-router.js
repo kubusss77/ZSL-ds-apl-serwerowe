@@ -7,6 +7,7 @@ import { photosRouter } from './photos.routes.js';
 import { tagsRouter } from './tags.router.js';
 import { userRouter } from './user.routes.js';
 import { profileRouter } from './profile.router.js';
+import { notificationsRouter } from './notifications.routes.js';
 
 export async function rootRouter(req, res) {
   console.log('url: ', req.url);
@@ -40,6 +41,12 @@ export async function rootRouter(req, res) {
     //PROFILE
     if (req.url.startsWith('/api/profile')) {
       profileRouter(req, res);
+      return;
+    }
+
+    //NOTIFICATIONS
+    if (req.url.startsWith('/api/notifications')) {
+      notificationsRouter(req, res);
       return;
     }
 

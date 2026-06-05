@@ -28,3 +28,5 @@ let userIds = 0;
 export const newUserId = () => ++userIds;
 
 export const tokensBlacklist = [];
+
+export const notificationClients = [];

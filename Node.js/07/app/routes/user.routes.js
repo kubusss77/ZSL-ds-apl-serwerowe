@@ -7,12 +7,14 @@ import { getBlacklist } from '../controllers/user/get-blacklist.controller.js';
 import { sendMessage } from '../utils/http.utils.js';
 
 export function userRouter(req, res) {
+  console.log('user');
   if (req.url === '/api/user/register' && req.method === 'POST') {
     registerUser(req, res);
     return;
   }
 
-  if (req.url.startsWith('/api/user/confirm' && req.method === 'GET')) {
+  if (req.url.startsWith('/api/user/confirm') && req.method === 'GET') {
+    console.log('confirm');
     confirmUser(req, res);
     return;
   }

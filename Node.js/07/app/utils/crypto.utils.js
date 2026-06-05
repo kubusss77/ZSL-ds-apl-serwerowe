@@ -19,6 +19,7 @@ export async function verifyJwt(token) {
     const payload = jwt.verify(token, APP_CONFIG.JWT_SECRET);
     return payload;
   } catch (err) {
+    console.log('JWT verification error: ', err);
     return false;
   }
 }

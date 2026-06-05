@@ -4,6 +4,8 @@ import { uploadPhotos } from '../controllers/photos/upload-photos.controller.js'
 import { deletePhotoById } from '../controllers/photos/delete-photo.controller.js';
 import { updatePhotoById } from '../controllers/photos/update-photo.controller.js';
 
+import { sendMessage } from '../utils/http.utils.js';
+
 export function photosRouter(req, res) {
   if (req.url === '/api/photos') {
     switch (req.method) {
@@ -32,4 +34,6 @@ export function photosRouter(req, res) {
       }
     }
   }
+
+  sendMessage(res, 404, 'Endpoint not found');
 }

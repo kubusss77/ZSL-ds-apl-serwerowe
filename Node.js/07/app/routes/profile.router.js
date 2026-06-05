@@ -1,6 +1,7 @@
 import { authorize } from '../middleware/auth.middleware.js';
 import { getProfile } from '../controllers/profile/get-profile.controller.js';
 import { updateProfile } from '../controllers/profile/update-profile.controller.js';
+import { uploadProfilePhoto } from '../controllers/profile/upload-profile-photo.controller.js';
 
 import { sendMessage } from '../utils/http.utils.js';
 
@@ -13,6 +14,10 @@ export function profileRouter(req, res) {
       }
       case 'PATCH': {
         authorize(req, res, updateProfile);
+        return;
+      }
+      case 'POST': {
+        authorize(req, res, uploadProfilePhoto);
         return;
       }
     }

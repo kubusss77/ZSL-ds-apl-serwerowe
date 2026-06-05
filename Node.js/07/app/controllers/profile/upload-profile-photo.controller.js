@@ -21,4 +21,6 @@ export async function uploadProfilePhoto(req, res) {
   }
 
   const photo = files[0];
+
+  console.log(photo);
 }

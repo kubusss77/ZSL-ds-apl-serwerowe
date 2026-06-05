@@ -8,9 +8,11 @@ export async function authorize(req, res, handler) {
   }
 
   const token = req.headers['authorization'].split(' ')[1];
+  console.log('token', req.headers['authorization'], token);
 
   const payload = await verifyJwt(token);
-  if (!payload || typeof payload.sub !== 'string') {
+  console.log('payload', payload);
+  if (!payload || typeof payload.sub !== 'number') {
     sendMessage(res, 401, 'Invalid token');
     return;
   }

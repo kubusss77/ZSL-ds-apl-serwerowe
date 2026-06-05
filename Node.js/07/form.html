@@ -64,13 +64,47 @@
 
       <button type="submit">Wyślij dane</button>
     </form>
-    <form action="/api/profile" method="POST" enctype="multipart/form-data">
+    <form id="profile-form">
       <div>
-        <label for="files">Wybierz zdjęcie profilowe:</label>
-        <input type="file" id="files" name="files" multiple />
+        <label for="token">Token:</label>
+        <input type="text" id="token" placeholder="..." required />
       </div>
 
-      <button type="submit">Wyślij dane</button>
+      <div>
+        <label for="profile-picture">Wybierz zdjęcie profilowe:</label>
+        <input type="file" id="profile-picture" name="files" required />
+      </div>
+
+      <button id="send-profile-picture-btn">Wyślij dane</button>
     </form>
   </body>
+  <script>
+    document.getElementById('send-profile-picture-btn').onclick = sendProfilePicture;
+
+    async function sendProfilePicture(e) {
+      e.preventDefault();
+      const filesInput = document.getElementById('profile-picture');
+      const [file] = filesInput.files;
+
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const token = document.getElementById('token').value;
+      console.log('token', token);
+
+      try {
+        const response = await fetch('http://localhost:3000/api/profile', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
+        });
+        console.log(await response.json());
+      } catch (e) {
+        console.error(e);
+      }
+    }
+  </script>
 </html>
