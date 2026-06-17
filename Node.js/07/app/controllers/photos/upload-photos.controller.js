@@ -9,7 +9,7 @@ export async function uploadPhotos(req, res) {
   const form = formidable();
   const [fields, { files }] = await form.parse(req);
 
-  const albumName = fields.album[0];
+  const albumName = fields.album?.[0];
 
   if (!albumName) {
     sendMessage(res, 400, 'Album name is required');
@@ -23,17 +23,22 @@ export async function uploadPhotos(req, res) {
 
   await fs.mkdir(path.join(APP_CONFIG.UPLOADS_DIR, albumName), { recursive: true });
 
-  files.forEach(async (file, index) => {
+  const uploadedPhotos = [];
+
+  for (const [index, file] of files.entries()) {
     const id = Date.now() + index;
     const fileName = `${id}${path.extname(file.originalFilename)}`;
 
     await fs.rename(file.filepath, path.join(APP_CONFIG.UPLOADS_DIR, albumName, fileName));
 
-    photos.push({
+    const newPhoto = {
       id,
       album: albumName,
       originalName: file.originalFilename,
       url: `/uploads/${albumName}/${fileName}`,
+      ownerId: req.user?.id,
+      ownerEmail: req.user?.email,
+      likes: [],
       lastChange: 'original',
       history: [
         {
@@ -41,11 +46,15 @@ export async function uploadPhotos(req, res) {
           timestamp: Date.now(),
         },
       ],
-    });
-  });
+      tags: [],
+    };
+
+    photos.push(newPhoto);
+    uploadedPhotos.push(newPhoto);
+  }
 
   console.log(`Uploaded ${files.length} files to album "${albumName}"`);
 
-  sendJson(res, 201, {});
+  sendJson(res, 201, uploadedPhotos);
   return;
 }

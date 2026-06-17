@@ -1,48 +1,51 @@
 import sharp from 'sharp';
 
-export async function cropSquareImage(inputImagePath, outputImagePath) {
-  // metadata z informacją o wymiarach zdjęcia
+async function getSquareCrop(inputImagePath) {
   const metadata = await sharp(inputImagePath).metadata();
   const { width, height } = metadata;
-  console.log('wymiary zdjęcia z metadata', width, height);
-
-  // obliczenia
   const squareSize = Math.min(width, height);
-  const left = Math.floor((width - squareSize) / 2);
-  const top = Math.floor((height - squareSize) / 2);
-  console.log('dimensions', squareSize, squareSize);
 
-  // sharp
+  return {
+    squareSize,
+    left: Math.floor((width - squareSize) / 2),
+    top: Math.floor((height - squareSize) / 2),
+  };
+}
+
+function circleMask(squareSize) {
+  return Buffer.from(
+    `<svg width="${squareSize}" height="${squareSize}"><rect x="0" y="0" width="${squareSize}" height="${squareSize}" rx="${squareSize / 2}" ry="${squareSize / 2}"/></svg>`
+  );
+}
+
+export async function cropSquareImage(inputImagePath, outputImagePath) {
+  const { squareSize, left, top } = await getSquareCrop(inputImagePath);
+
   await sharp(inputImagePath)
     .extract({ left: left, top: top, width: squareSize, height: squareSize })
     .toFile(outputImagePath);
 }
 
 export async function overlayCircle(inputImagePath, outputImagePath) {
-  const { height } = await sharp(inputImagePath).metadata();
-  const squareSize = height;
-
-  const roundedCorners = Buffer.from(
-    `<svg><rect x="0" y="0" width="${squareSize}" height="${squareSize}" rx="${squareSize / 2}" ry="${squareSize / 2}"/></svg>`
-  );
+  const { squareSize, left, top } = await getSquareCrop(inputImagePath);
 
   await sharp(inputImagePath)
+    .extract({ left, top, width: squareSize, height: squareSize })
     .composite([
       {
-        input: roundedCorners,
+        input: circleMask(squareSize),
         blend: 'dest-in',
       },
     ])
+    .toFormat('png')
     .toFile(outputImagePath);
 }
 
 export async function overlayText(inputImagePath, outputImagePath, text) {
+  const { squareSize, left, top } = await getSquareCrop(inputImagePath);
   const fontSize = Math.floor(squareSize * 0.7);
   const textColor = 'yellow';
   const fontFamily = 'Arial, sans-serif';
-
-  const { height } = await sharp(inputImagePath).metadata();
-  const squareSize = height;
 
   const letterSvgBuffer = Buffer.from(
     `<svg width="${squareSize}" height="${squareSize}" viewBox="0 0 ${squareSize} ${squareSize}">
@@ -58,20 +61,20 @@ export async function overlayText(inputImagePath, outputImagePath, text) {
  </svg>`
   );
 
-  // tablica .composite() przyjmuje wiele obiektów jednocześnie.
-  // aby nałożyć maskę okrągłą i tekst w jednej operacji, przekazujemy je razem:
-
   await sharp(inputImagePath)
+    .extract({ left, top, width: squareSize, height: squareSize })
     .composite([
-      { input: letterSvgBuffer, blend: 'over' }, // Nałożenie tekstu na wierzch
+      { input: circleMask(squareSize), blend: 'dest-in' },
+      { input: letterSvgBuffer, blend: 'over' },
     ])
+    .toFormat('png')
     .toFile(outputImagePath);
 }
 
 export async function overlayGradient(inputImagePath, outputImagePath) {
-  const { height } = await sharp(inputImagePath).metadata();
-  const squareSize = height;
-  const borderRadius = squareSize / 2;
+  const { squareSize, left, top } = await getSquareCrop(inputImagePath);
+  const strokeWidth = Math.max(8, Math.floor(squareSize * 0.08));
+  const borderRadius = squareSize / 2 - strokeWidth / 2;
 
   const gradientSvg = Buffer.from(
     `<svg width="${squareSize}" height="${squareSize}" >
@@ -81,23 +84,22 @@ export async function overlayGradient(inputImagePath, outputImagePath) {
  <stop offset="100%" stop-color="#00f"/>
  </linearGradient>
  </defs>
- 
- // aby grube obramowanie (stroke-width="50") nie zostało ucięte przez krawędzie ramki SVG,
- // promień koła pomniejszamy o połowę grubości tego obramowania (czyli o 25px).
- <circle cx="${squareSize / 2}" cy="${squareSize / 2}" r="${borderRadius - 25}" fill="none" stroke="url(#gradient)" stroke-width="50"/>
+ <circle cx="${squareSize / 2}" cy="${squareSize / 2}" r="${borderRadius}" fill="none" stroke="url(#gradient)" stroke-width="${strokeWidth}"/>
  </svg>`
   );
 
   await sharp(inputImagePath)
+    .extract({ left, top, width: squareSize, height: squareSize })
     .composite([
-      { input: gradientSvg, blend: 'over' }, // Nałożenie gradientu na wierzch
+      { input: circleMask(squareSize), blend: 'dest-in' },
+      { input: gradientSvg, blend: 'over' },
     ])
+    .toFormat('png')
     .toFile(outputImagePath);
 }
 
 export async function overlayPattern(inputImagePath, outputImagePath) {
-  const { height } = await sharp(inputImagePath).metadata();
-  const squareSize = height;
+  const { squareSize, left, top } = await getSquareCrop(inputImagePath);
 
   const patternSvg = Buffer.from(
     `<svg width="${squareSize}" height="${squareSize}" >
@@ -111,10 +113,8 @@ export async function overlayPattern(inputImagePath, outputImagePath) {
  </svg>`
   );
 
-  // Wymuszenie formatu wyjściowego (.toFormat('png')) jest konieczne,
-  // ponieważ formaty bez przezroczystości (jak .jpg) nie obsłużą poprawnie zaawansowanych efektów przezroczystości masek i blendowania.
-
   await sharp(inputImagePath)
+    .extract({ left, top, width: squareSize, height: squareSize })
     .composite([
       {
         input: patternSvg,
@@ -126,9 +126,8 @@ export async function overlayPattern(inputImagePath, outputImagePath) {
 }
 
 export async function overlayCircleBorder(inputImagePath, outputImagePath) {
-  const { height } = await sharp(inputImagePath).metadata();
-  const squareSize = height;
-  const strokeWidth = 20;
+  const { squareSize, left, top } = await getSquareCrop(inputImagePath);
+  const strokeWidth = Math.max(8, Math.floor(squareSize * 0.08));
   const borderRadius = squareSize / 2 - strokeWidth / 2;
 
   const yellowBorderSvgBuffer = Buffer.from(
@@ -140,8 +139,11 @@ export async function overlayCircleBorder(inputImagePath, outputImagePath) {
   );
 
   await sharp(inputImagePath)
+    .extract({ left, top, width: squareSize, height: squareSize })
     .composite([
-      { input: yellowBorderSvgBuffer, blend: 'over' }, // Nałożenie gradientu na wierzch
+      { input: circleMask(squareSize), blend: 'dest-in' },
+      { input: yellowBorderSvgBuffer, blend: 'over' },
     ])
+    .toFormat('png')
     .toFile(outputImagePath);
 }

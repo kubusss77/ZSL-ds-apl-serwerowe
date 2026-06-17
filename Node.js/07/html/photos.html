@@ -51,33 +51,68 @@
     </style>
   </head>
   <body>
-    <form action="/api/photos" method="POST" enctype="multipart/form-data">
+    <div>
+        <label for="token">Token:</label>
+        <input type="text" id="token" placeholder="..." />
+    </div>
+
+    <form id="album-form">
       <div>
-        <label for="name">Nazwa albumu:</label>
-        <input type="text" id="name" name="album" placeholder="..." required />
+        <label for="album-name">Nazwa albumu:</label>
+        <input type="text" id="album-name" placeholder="..." required />
       </div>
 
       <div>
-        <label for="files">Wybierz pliki:</label>
-        <input type="file" id="files" name="files" multiple />
+        <label for="album-photos">Wybierz pliki:</label>
+        <input type="file" id="album-photos" name="files" multiple required />
       </div>
 
-      <button type="submit">Wyślij dane</button>
+      <button id="send-photos-btn">Wyślij dane</button>
     </form>
+
     <form id="profile-form">
       <div>
-        <label for="token">Token:</label>
-        <input type="text" id="token" placeholder="..." required />
-      </div>
-
-      <div>
         <label for="profile-picture">Wybierz zdjęcie profilowe:</label>
-        <input type="file" id="profile-picture" name="files" required />
+        <input type="file" id="profile-picture" name="file" required />
       </div>
 
       <button id="send-profile-picture-btn">Wyślij dane</button>
     </form>
   </body>
+  <script>
+    document.getElementById('send-photos-btn').onclick = sendAlbumPhotos;
+
+    async function sendAlbumPhotos(e) {
+      e.preventDefault();
+
+      const albumName = document.getElementById('album-name').value.trim();
+      const formData = new FormData();
+      formData.append('album', albumName);
+
+      const filesInput = document.getElementById('album-photos');
+      for (const file of filesInput.files) {
+        formData.append('files', file);
+      }
+
+      const token = document.getElementById('token').value.trim();
+      const headers = {};
+
+      if (token) {
+        headers.Authorization = `Bearer ${token}`;
+      }
+
+      try {
+        const response = await fetch('http://localhost:3000/api/photos', {
+          method: 'POST',
+          headers,
+          body: formData,
+        });
+        alert(JSON.stringify(await response.json(), null, 2));
+      } catch (e) {
+        console.error(e);
+      }
+    }
+  </script>
   <script>
     document.getElementById('send-profile-picture-btn').onclick = sendProfilePicture;
 
@@ -90,18 +125,16 @@
       formData.append('file', file);
 
       const token = document.getElementById('token').value;
-      console.log('token', token);
 
       try {
         const response = await fetch('http://localhost:3000/api/profile', {
           method: 'POST',
           headers: {
-            'Content-Type': 'multipart/form-data',
             Authorization: `Bearer ${token}`,
           },
           body: formData,
         });
-        console.log(await response.json());
+        alert(JSON.stringify(await response.json(), null, 2));
       } catch (e) {
         console.error(e);
       }

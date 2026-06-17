@@ -1,6 +1,7 @@
 import { getJsonBody, sendMessage, sendJson } from '../../utils/http.utils.js';
 import { users } from '../../model.js';
 import { comparePassword, signJwt } from '../../utils/crypto.utils.js';
+import { APP_CONFIG } from '../../constants.js';
 
 const AUTH_TOKEN_EXPIRY = 60 * 60 * 24;
 
@@ -29,7 +30,7 @@ export async function loginUser(req, res) {
     return;
   }
 
-  const isPasswordValid = comparePassword(body.password, user?.password);
+  const isPasswordValid = await comparePassword(body.password, user.passwordHash);
   if (!isPasswordValid) {
     sendMessage(res, 400, 'Invalid email or password');
     return;
@@ -45,5 +46,9 @@ export async function loginUser(req, res) {
   });
 
   res.setHeader('Authorization', 'Bearer ' + token);
-  sendMessage(res, 200, 'Login successfull');
+  sendJson(res, 200, {
+    message: 'Login successfull',
+    token,
+    notificationsLink: `${APP_CONFIG.API_HOST}/api/notifications?token=${token}`,
+  });
 }

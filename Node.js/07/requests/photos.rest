@@ -18,3 +18,15 @@ Content-Type: application/json
 {
   "status": "new"
 }
+
+### Add tag to photo
+PATCH {{baseUrl}}/photos/1781722761543/tags
+Content-Type: application/json
+
+{
+  "tag": "new tag"
+}
+
+### Like photo
+POST {{baseUrl}}/photos/1779439360852/like
+Authorization: Bearer <token>

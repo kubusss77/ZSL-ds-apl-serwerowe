@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Notifications SSE</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        max-width: 780px;
+        margin: 32px auto;
+        line-height: 1.4;
+      }
+      input,
+      textarea,
+      button {
+        box-sizing: border-box;
+        display: block;
+        width: 100%;
+        margin: 8px 0 16px;
+        padding: 8px;
+      }
+      pre {
+        min-height: 220px;
+        padding: 12px;
+        background: #111;
+        color: #e8e8e8;
+        overflow: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Notifications SSE</h1>
+    <label>Token</label>
+    <input id="token" />
+    <button id="connect">Connect</button>
+    <label>Recipient email or ID</label>
+    <input id="to" />
+    <label>Message</label>
+    <textarea id="message">Test notification</textarea>
+    <button id="send">Send</button>
+    <pre id="log"></pre>
+    <script>
+      const API_HOST = 'http://localhost:3000';
+
+      const log = document.getElementById('log');
+      const token = document.getElementById('token');
+      const to = document.getElementById('to');
+      const message = document.getElementById('message');
+      let source;
+
+      function append(value) {
+        log.innerHTML += value + '<br>';
+      }
+
+      document.getElementById('connect').onclick = () => {
+        if (source) source.close();
+        source = new EventSource(`${API_HOST}/api/notifications?token=` + encodeURIComponent(token.value));
+        source.onmessage = (event) => append(event.data);
+        source.onerror = () => append('connection error');
+      };
+
+      document.getElementById('send').onclick = async () => {
+        const rawTo = to.value.trim();
+        const parsedTo = Number(rawTo);
+        const response = await fetch(`${API_HOST}/api/notifications/send`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + token.value,
+          },
+          body: JSON.stringify({
+            to: Number.isNaN(parsedTo) ? rawTo : parsedTo,
+            message: message.value,
+          }),
+        });
+        append(await response.text());
+      };
+    </script>
+  </body>
+</html>

@@ -1,15 +1,32 @@
 @baseUrl = http://localhost:3000/api
+@jwtToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTc4MTcyMjk0OCwiZXhwIjoxNzgxODA5MzQ4fQ.vc8KIYi05tU7-etbL_BsWF6jlPFq050sdyGQ_Dmj52Y
 
 ### User profile
 GET {{baseUrl}}/profile
-Authorization: Bearer
+Authorization: Bearer {{jwtToken}}
 
 ### Profile update
 PATCH {{baseUrl}}/profile
 Content-Type: application/json
-Authorization: Bearer <token>
+Authorization: Bearer {{jwtToken}}
 
 {
  "name": "NoweImie",
  "lastName": "NoweNazwisko"
 }
+
+### Profile photo
+POST {{baseUrl}}/profile
+Authorization: Bearer {{jwtToken}}
+Content-Type: multipart/form-data; boundary=----FormBoundary1234
+
+------FormBoundary1234
+Content-Disposition: form-data; name="file"; filename="user.png"
+Content-Type: image/png
+
+< ./user.png
+------FormBoundary1234--
+
+### Profile logout
+POST {{baseUrl}}/profile/logout
+Authorization: Bearer {{jwtToken}}

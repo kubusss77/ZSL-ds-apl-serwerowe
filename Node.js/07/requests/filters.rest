@@ -1,0 +1,59 @@
+@baseUrl = http://localhost:3000/api
+
+### Photo metadata
+GET {{baseUrl}}/filters/metadata/1779436155908
+
+### Grayscale filter
+PATCH {{baseUrl}}/filters
+Content-Type: application/json
+
+{
+  "id": 1781714773910,
+  "lastChange": "grayscale"
+}
+
+### Rotate filter
+PATCH {{baseUrl}}/filters
+Content-Type: application/json
+
+{
+  "id": 1779436155908,
+  "lastChange": "rotate",
+  "angle": 90
+}
+
+### Resize filter
+PATCH {{baseUrl}}/filters
+Content-Type: application/json
+
+{
+  "id": 1779436155908,
+  "lastChange": "resize",
+  "width": 150,
+  "height": 97
+}
+
+### Crop filter
+PATCH {{baseUrl}}/filters
+Content-Type: application/json
+
+{
+  "id": 1781722761543,
+  "lastChange": "crop",
+  "width": 100,
+  "height": 100,
+  "left": 20,
+  "top": 20
+}
+
+### Tint filter
+PATCH {{baseUrl}}/filters
+Content-Type: application/json
+
+{
+  "id": 1779436155908,
+  "lastChange": "tint",
+  "r": 255,
+  "g": 0,
+  "b": 0
+}

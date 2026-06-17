@@ -1,0 +1,44 @@
+import { APP_CONFIG } from '../../constants.js';
+
+export function getLikesPage(req, res) {
+  const html = `<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Photo likes</title>
+    <style>
+      body { font-family: sans-serif; max-width: 680px; margin: 32px auto; line-height: 1.4; }
+      input, button { box-sizing: border-box; display: block; width: 100%; margin: 8px 0 16px; padding: 8px; }
+      pre { min-height: 180px; padding: 12px; background: #111; color: #e8e8e8; overflow: auto; }
+    </style>
+  </head>
+  <body>
+    <h1>Photo likes</h1>
+    <label>Token użytkownika, który lajkuje</label>
+    <input id="token" />
+    <label>ID zdjęcia</label>
+    <input id="photoId" />
+    <button id="like">Like</button>
+    <pre id="log"></pre>
+    <script>
+      const token = document.getElementById('token');
+      const photoId = document.getElementById('photoId');
+      const log = document.getElementById('log');
+
+      document.getElementById('like').onclick = async () => {
+        const response = await fetch('${APP_CONFIG.API_HOST}/api/photos/' + encodeURIComponent(photoId.value) + '/like', {
+          method: 'POST',
+          headers: {
+            Authorization: 'Bearer ' + token.value,
+          },
+        });
+        log.textContent = await response.text();
+      };
+    </script>
+  </body>
+</html>`;
+
+  res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+  res.end(html);
+}

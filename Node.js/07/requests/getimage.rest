@@ -1,0 +1,12 @@
+@baseUrl = http://localhost:3000/api
+@jwtToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTc4MTcyMjk0OCwiZXhwIjoxNzgxODA5MzQ4fQ.vc8KIYi05tU7-etbL_BsWF6jlPFq050sdyGQ_Dmj52Y
+
+### Original image
+GET {{baseUrl}}/getimage/1781722761543
+
+### Filtered image
+GET {{baseUrl}}/getimage/1781722761543/filter/crop
+
+### Profile image
+GET {{baseUrl}}/getimage/profile/email1%40example.com/border.png
+Authorization: Bearer {{jwtToken}}

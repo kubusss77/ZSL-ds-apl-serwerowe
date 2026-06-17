@@ -8,3 +8,15 @@ export function getAllTags(req, res) {
 export function getAllTagsRaw(req, res) {
   sendJson(res, 200, rawTags());
 }
+
+export function getTagById(req, res) {
+  const tagId = parseInt(req.url.split('/').pop(), 10);
+  const tag = tags.find((t) => t.id === tagId);
+
+  if (!tag) {
+    sendMessage(res, 404, 'Tag not found');
+    return;
+  }
+
+  sendJson(res, 200, tag);
+}

@@ -1,0 +1,28 @@
+@baseUrl = http://localhost:3000/api
+@jwtToken = <token>
+
+### SSE stream
+GET {{baseUrl}}/notifications?token={{jwtToken}}
+
+### Active SSE subscribers
+GET {{baseUrl}}/notifications/subscribers
+Authorization: Bearer {{jwtToken}}
+
+### Send notification to user by email or ID
+POST {{baseUrl}}/notifications/send
+Content-Type: application/json
+Authorization: Bearer {{jwtToken}}
+
+{
+  "to": "email@example.com",
+  "message": "Test notification"
+}
+
+### Send notification to all connected users
+POST {{baseUrl}}/notifications/send-to-all
+Content-Type: application/json
+Authorization: Bearer {{jwtToken}}
+
+{
+  "message": "Broadcast notification"
+}

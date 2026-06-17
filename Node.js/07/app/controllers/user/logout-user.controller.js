@@ -6,6 +6,11 @@ export async function logoutUser(req, res) {
   const token = req.headers['authorization'].split(' ')[1];
   const payload = await decodeJwt(token);
 
+  if (!payload) {
+    sendMessage(res, 401, 'Invalid token');
+    return;
+  }
+
   tokensBlacklist.push({ token: token, exp: payload.exp });
 
   sendMessage(res, 200, 'Logout successfull');

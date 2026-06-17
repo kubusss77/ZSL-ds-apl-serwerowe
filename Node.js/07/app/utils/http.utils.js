@@ -20,6 +20,11 @@ export async function getJsonBody(req, required) {
       try {
         const parsedBody = JSON.parse(body);
 
+        if (!required) {
+          resolve(parsedBody);
+          return;
+        }
+
         resolve({
           body: parsedBody,
           errors: Object.keys(required)
@@ -27,7 +32,7 @@ export async function getJsonBody(req, required) {
             .map((k) => `${k} (${required[k]})`),
         });
       } catch (error) {
-        resolve({ body: undefined });
+        resolve(required ? { body: undefined, errors: [] } : undefined);
       }
     });
   });

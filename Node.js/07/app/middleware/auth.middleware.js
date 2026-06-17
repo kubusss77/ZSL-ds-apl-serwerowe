@@ -1,25 +1,37 @@
-import { verifyJwt } from '../utils/crypto.utils.js';
 import { sendMessage } from '../utils/http.utils.js';
+import { getAuthorizedUserFromToken } from '../utils/auth.utils.js';
 
-export async function authorize(req, res, handler) {
-  if (!req.headers['authorization']) {
-    sendMessage(res, 401, 'Authorization required');
+export async function authorize(req, res, handler, requireAuth = true) {
+  const authorization = req.headers['authorization'];
+
+  if (!authorization) {
+    if (requireAuth) {
+      sendMessage(res, 401, 'Authorization required');
+      return;
+    } else {
+      await handler(req, res);
+      return;
+    }
+  }
+
+  const [type, token] = authorization.split(' ');
+
+  if (type !== 'Bearer' || !token) {
+    sendMessage(res, 401, 'Invalid token');
     return;
   }
 
-  const token = req.headers['authorization'].split(' ')[1];
-  console.log('token', req.headers['authorization'], token);
+  const user = await getAuthorizedUserFromToken(token);
 
-  const payload = await verifyJwt(token);
-  console.log('payload', payload);
-  if (!payload || typeof payload.sub !== 'number') {
+  if (!user) {
     sendMessage(res, 401, 'Invalid token');
     return;
   }
 
   req.user = {
-    id: payload.sub,
+    id: user.id,
+    email: user.email,
   };
 
-  handler(req, res);
+  await handler(req, res);
 }

@@ -3,18 +3,20 @@
 ### Get all tags
 GET {{baseUrl}}/tags
 
-### Get all tags raw
+### Get tags stats
+GET {{baseUrl}}/tags/stats
 
+### Get all tags raw
 GET {{baseUrl}}/tags/raw
+
+### Get tag by id
+GET {{baseUrl}}/tags/1
 
 ### Add new tag
 POST {{baseUrl}}/tags
 Content-Type: application/json
 
 {
-  "name": "aadsadasds",
-  "popularity": 23
+  "name": "aadsadasd",
+  "popularity": 20
 }
-
-### Get tags stats
-GET {{baseUrl}}/tags/stats

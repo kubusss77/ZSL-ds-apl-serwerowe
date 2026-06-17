@@ -16,7 +16,7 @@ const initTags = [
   '#beats',
 ];
 
-export const tags = initTags.map((t, i) => ({ id: i, name: t, popularity: Math.floor(Math.random * 1000) }));
+export const tags = initTags.map((t, i) => ({ id: i, name: t, popularity: Math.floor(Math.random() * 1000) }));
 let tagIds = initTags.length;
 export const newTagId = () => ++tagIds;
 
